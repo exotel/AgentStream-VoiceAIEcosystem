@@ -1,0 +1,15 @@
+.env
+*.local
+
+# OS / Python
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Local artifacts (large binary; do not commit)
+Livekit/livekitAgent
+# Local LiveKit config with credentials (copy from .example and fill in)
+livekit/config/inbound-trunk.json
+livekit/config/outbound-trunk.json
+scripts/livekit/inbound-trunk.json
+scripts/livekit/outbound-trunk.json

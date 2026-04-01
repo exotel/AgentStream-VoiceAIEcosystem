@@ -1,22 +1,18 @@
-# Quickstart: Exotel vSIP + ElevenLabs (outbound digest)
+# Quickstart — ElevenLabs + Exotel vSIP
 
-**Voice AI Ecosystem: ElevenLabs Voice AI Connector** — shortest path to an **outbound** test call through Exotel using **SIP digest** on both Exotel and ElevenLabs.
+Goal: first successful **outbound** and (optionally) **inbound** call using **Exotel as the India PSTN carrier** and **ElevenLabs Conversational AI** as the Voice AI platform.
 
-> **Outbound SIP (Exotel) is only:** create trunk → map DID → `POST .../credentials`. **Optional:** `whitelisted-ips` **only** if ElevenLabs gives you a **static egress IP** — Exotel trunk **does not support CIDR range** ACL; use **`mask: 32`** per IP. **Destination URI** and **Connect** apply to **inbound SIP**, not this minimal outbound path.
+Shared Exotel API snippets:
 
-**Full detail:** [elevenlabs-voice-ai-connector.md](./elevenlabs-voice-ai-connector.md)
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
----
+Full support article:
 
-## What you’ll build
-
-```text
-ElevenLabs Agent → SIP (digest) → Exotel vSIP → PSTN → Customer
-```
+- [`docs/support/exotel-elevenlabs-sip-trunk.md`](../../../docs/support/exotel-elevenlabs-sip-trunk.md)
 
 ---
 
-## Prerequisites
+## Prereqs
 
 - [ ] Exotel **vSIP** enabled; **KYC**; **Exophone** (E.164)  
 - [ ] Exotel **API Key**, **API Token**, **Account SID**, **SUBDOMAIN** (`api.in.exotel.com` for India)  
@@ -25,14 +21,50 @@ ElevenLabs Agent → SIP (digest) → Exotel vSIP → PSTN → Customer
 
 ---
 
-## Variables
+## Outbound (ElevenLabs → Exotel → PSTN)
 
-| Placeholder | Meaning |
-|-------------|---------|
-| `TRUNK_SID` | From create-trunk response |
-| `SIP_USER`, `SIP_PASS` | Same on Exotel `/credentials` and ElevenLabs import |
+1. **Exotel**
+   - Create trunk
+   - Map DID to trunk
+   - Create digest credentials on the trunk (`POST .../credentials`)
+2. **ElevenLabs**
+   - Create/publish agent
+   - Phone Numbers → Import from SIP trunk
+   - Set digest auth to match Exotel trunk credentials
+   - Set outbound address = Exotel edge `IP:port`
+3. Place an outbound test call via ElevenLabs.
+
+Optional:
+
+- Exotel trunk `whitelisted-ips` only if ElevenLabs provides **static `/32`** SIP egress IPs (one IP per POST, `mask: 32`; do not attempt CIDR ranges).
 
 ---
+
+## Inbound (PSTN → Exotel → ElevenLabs) (optional)
+
+1. **Exotel**
+   - Set trunk `destination-uris` toward ElevenLabs SIP ingress (per support article)
+   - In Exotel Flow, use **Connect** with `sip:<trunk_sid>`
+2. Call the DID and confirm ElevenLabs answers.
+
+---
+
+## If calls fail
+
+- **401/403**: digest mismatch between Exotel `/credentials` and ElevenLabs import.
+- **Inbound not reaching ElevenLabs**: wrong `destination-uris` target, or Flow Connect not set to `sip:<trunk_sid>`.
+- Use the full guide: [`docs/support/exotel-elevenlabs-sip-trunk.md`](../../../docs/support/exotel-elevenlabs-sip-trunk.md)
+
+## Links
+
+- ElevenLabs SIP trunking: https://elevenlabs.io/docs/agents-platform/phone-numbers/sip-trunking
+- Repo support article: [`docs/support/exotel-elevenlabs-sip-trunk.md`](../../../docs/support/exotel-elevenlabs-sip-trunk.md)
+
+---
+
+## Appendix: raw Exotel curls (optional)
+
+If you want copy/paste curls instead of the shared snippets, the original examples are kept below.
 
 ## 1 — Exotel: create trunk
 

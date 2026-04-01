@@ -2,11 +2,19 @@
 
 This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Vapi](https://vapi.ai/)** using Vapi’s **Bring Your Own (BYO) SIP trunk** credential (`byo-sip-trunk`) and **BYO phone number** (`byo-phone-number`), with Exotel as the Indian PSTN carrier.
 
+> **Applicability:** **UI-driven + API-driven** (Vapi dashboard objects, also creatable via API).
+
 > **Exotel edge:** Use **IPv4 `IP:port`** from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). **Vapi’s SBC expects a numeric IPv4 in the gateway field** — resolve any hostname to IPv4 before saving the credential ([hostname vs IP](https://docs.vapi.ai/advanced/sip/troubleshoot-sip-trunk-credential-errors)).
+
+> **Edge hostnames you may see (India):** `in.voip.exotel.com:5070` (TCP) and `in.voip.exotel.com:443` (TLS). If you see hostnames but need IPv4, resolve to IPv4 only if Exotel confirms that mapping. See [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).
+
+> **ACL vs digest (important):** Only use Exotel `whitelisted-ips` for **static `/32` IPs** (`mask: 32`). Do **not** attempt to whitelist **CIDR ranges**; if your egress is shared/range-based, prefer **digest** and coordinate with Exotel support—allowlists can become the primary trust signal and cause auth/routing issues in multi-tenant egress setups.
 
 > **Vapi → Exotel allowlist:** Vapi signals from **two static SBC IPs**. Add **both** to Exotel **`whitelisted-ips`** with **`mask: 32`** (one POST per IP) so Vapi can reach your trunk ([Vapi SIP trunking](https://docs.vapi.ai/advanced/sip/sip-trunk), [networking](https://docs.vapi.ai/advanced/sip/sip-networking)).
 
 > **Engineering detail:** [`vapi/integrations/exotel-vsip/vapi-exotel-voice-ai-connector.md`](../../vapi/integrations/exotel-vsip/vapi-exotel-voice-ai-connector.md)
+
+> **Quickstart:** [`vapi/integrations/exotel-vsip/QUICKSTART.md`](../../vapi/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 
@@ -46,7 +54,7 @@ This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Vapi](https://v
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 CPM** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### Whitelist Vapi SBC (recommended for Vapi → Exotel)
 

@@ -1,49 +1,42 @@
-# Quickstart: Exotel DID + Vocallabs (Superflow B2B)
+# Quickstart — Vocallabs (Superflow B2B) + Exotel
 
-**Prerequisites:** [Vocallabs API credentials](https://docs.vocallabs.ai/vocallabs) (`clientId` / `clientSecret`); Exotel vSIP + **E.164** DID if Exotel is your carrier.
+Goal: first successful call using **Vocallabs API-first flow** aligned with an **Exotel DID** (and Exotel vSIP only if your design uses a classic SIP trunk leg).
 
-**API base:** `https://api.superflow.run/b2b/`
+## Prereqs
 
----
+- Vocallabs: API credentials (`clientId` / `clientSecret`) from https://docs.vocallabs.ai/vocallabs
+- Exotel: DID available (E.164). If you are using vSIP, vSIP enabled + API creds.
 
-## 1 — Auth token
+Shared Exotel vSIP API snippets (only if you need a SIP trunk leg):
 
-```bash
-curl -s -X POST 'https://api.superflow.run/b2b/createAuthToken/' \
-  -H 'Content-Type: application/json' \
-  -d '{"clientId":"'"$CLIENT_ID"'","clientSecret":"'"$CLIENT_SECRET"'"}'
-```
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
-Export **`AUTH_TOKEN`** from the response (field name per Vocallabs response).
+## Outbound
 
----
+API-first (typical):
 
-## 2 — Create SIP call (example)
+1. Get a Vocallabs auth token.
+2. Use `createSIPCall` / other Vocallabs endpoints with:
+   - `phone_number` = destination (E.164)
+   - `did` = your Exotel DID (E.164) when Vocallabs expects caller identity
 
-```bash
-curl -s -X POST 'https://api.superflow.run/b2b/vocallabs/createSIPCall' \
-  -H 'Content-Type: application/json' \
-  -H "Authorization: Bearer $AUTH_TOKEN" \
-  -d '{
-    "phone_number": "+91XXXXXXXXXX",
-    "did": "+91YYYYYYYYYY",
-    "websocket_url": "wss://your-bridge.example.com/media",
-    "webhook_url": "https://your-app.example.com/webhook",
-    "sample_rate": "16000"
-  }'
-```
+If your design includes SIP trunking through Exotel:
 
-Set **`did`** to your **Exotel DID** when that is the caller identity for the session.
+1. Exotel trunk + DID + digest (`POST .../credentials`) must be aligned to whatever SIP leg Vocallabs expects (confirm with Vocallabs).
 
----
+## Inbound
 
-## 3 — Exotel trunk (if using vSIP)
+Inbound PSTN → AI through Exotel requires a stable SIP origination target from Vocallabs (confirm with their team). If you have that:
 
-[`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+1. Exotel trunk `destination-uris` → Vocallabs SIP target
+2. Exotel Flow Connect `sip:<trunk_sid>`
 
----
+## If calls fail
 
-## Full reference
+- Treat Vocallabs as **API-first** unless they explicitly provide a stable SIP target for classic trunk routing.
+- Use the full guide: [`docs/support/exotel-vocallabs-sip-trunk.md`](../../../docs/support/exotel-vocallabs-sip-trunk.md)
 
-- [Vocallabs API docs](https://docs.vocallabs.ai/vocallabs)  
-- [`exotel-vocallabs-sip-trunk.md`](../../../docs/support/exotel-vocallabs-sip-trunk.md)
+## Links
+
+- Vocallabs docs: https://docs.vocallabs.ai/vocallabs
+- Repo support article: [`docs/support/exotel-vocallabs-sip-trunk.md`](../../../docs/support/exotel-vocallabs-sip-trunk.md)

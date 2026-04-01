@@ -2,9 +2,17 @@
 
 This guide connects **Exotel vSIP** to **Retell AI** using elastic SIP per [Retell custom telephony](https://docs.retellai.com/deploy/custom-telephony), with Exotel as the Indian PSTN provider.
 
+> **Applicability:** **UI-driven** (Retell dashboard custom telephony) with optional **API-driven** call control.
+
 > **Exotel edge:** Use **IP:port** from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)).
 
+> **Edge hostnames you may see (India):** `in.voip.exotel.com:5070` (TCP) and `in.voip.exotel.com:443` (TLS). Use the exact host/IP + port + transport Exotel assigns. See [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).
+
+> **ACL vs digest (important):** Exotel trunk ACL is intended for **static `/32` IPs** only (`mask: 32`), not CIDR ranges. If Retell provides **CIDR ranges** (common), do **not** attempt to whitelist ranges on Exotel—prefer **digest** and coordinate with Exotel/provider support if you see auth/routing issues.
+
 > **Full reference:** [`retell/integrations/exotel-vsip/retell-exotel-voice-ai-connector.md`](../../retell/integrations/exotel-vsip/retell-exotel-voice-ai-connector.md)
+
+> **Quickstart:** [`retell/integrations/exotel-vsip/QUICKSTART.md`](../../retell/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 
@@ -33,7 +41,7 @@ This guide connects **Exotel vSIP** to **Retell AI** using elastic SIP per [Rete
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 CPM** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### Outbound SIP
 

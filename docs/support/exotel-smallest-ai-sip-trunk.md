@@ -2,11 +2,19 @@
 
 This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Smallest AI](https://smallest.ai/)** **Atoms** using **Import SIP** (bring your own number over SIP). Smallest documents this in the platform **Phone Numbers** flow — you provide a **SIP Termination URL** (where Atoms sends **outbound** SIP toward your carrier) and copy the **SIP Origination URL** that Atoms gives you into your carrier for **inbound** routing.
 
+> **Applicability:** **UI-driven** (Atoms “Import SIP” screen) with optional **API-driven** outbound call triggering.
+
 > **Exotel edge:** Use **IP:port** (and transport) from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Enter the value Smallest expects as the **termination** target (often `host:port` or `sip:host:port` — follow the **Import SIP** form and [phone numbers](https://atoms-docs.smallest.ai/platform/deployment/phone-numbers.md) doc).
+
+> **Edge hostnames you may see (India):** `in.voip.exotel.com:5070` (TCP) and `in.voip.exotel.com:443` (TLS). Use the exact host/IP + port + transport Exotel assigns. See [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).
+
+> **ACL vs digest (important):** Exotel trunk ACL (`whitelisted-ips`) is intended for **static `/32` IPs** only (`mask: 32`). If a provider publishes only **CIDR/shared egress**, do **not** attempt to whitelist ranges—prefer **digest** and coordinate with Exotel/provider support if calls fail.
 
 > **Origination URL is tenant-specific:** After you add a custom SIP number, Atoms shows a **SIP Origination URL** — **copy it exactly** into Exotel **`destination-uris`** for PSTN → Exotel → Smallest. Do **not** reuse example hostnames from third-party summaries.
 
 > **Engineering detail:** [`smallest/integrations/exotel-vsip/smallest-exotel-voice-ai-connector.md`](../../smallest/integrations/exotel-vsip/smallest-exotel-voice-ai-connector.md)
+
+> **Quickstart:** [`smallest/integrations/exotel-vsip/QUICKSTART.md`](../../smallest/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 
@@ -48,7 +56,7 @@ This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Smallest AI](ht
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 CPM** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### Outbound SIP (minimal)
 

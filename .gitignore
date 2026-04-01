@@ -5,6 +5,7 @@
 .DS_Store
 __pycache__/
 *.py[cod]
+.venv-xlsx/
 
 # Local artifacts (large binary; do not commit)
 Livekit/livekitAgent

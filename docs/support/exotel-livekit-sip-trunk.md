@@ -2,9 +2,17 @@
 
 This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **LiveKit Cloud** telephony so PSTN calls can reach **LiveKit rooms** and outbound calls can use Exotel as the Indian PSTN leg.
 
+> **Applicability:** **UI-driven + developer-driven** (LiveKit Cloud console for trunks/dispatch; your app/agent joins rooms). Not a single “import trunk” wizard like some providers.
+
 > **Exotel edge:** Signaling toward Exotel uses **edge IP:port** from Exotel ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Configure **`IP:port`** as Exotel assigns — not an assumed carrier hostname.
 
+> **Edge hostnames you may see (India):** `in.voip.exotel.com:5070` (TCP) and `in.voip.exotel.com:443` (TLS). Use the exact host/IP + port + transport Exotel assigns. See [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).
+
+> **ACL vs digest (important):** Exotel trunk ACL (`whitelisted-ips`) is intended for **static `/32` IPs** only (`mask: 32`), not CIDR ranges. If the provider/network only has **CIDR/shared egress**, prefer **digest** and coordinate with Exotel support—IP allowlisting can become the primary trust signal and cause intermittent auth/routing issues in shared egress setups.
+
 > **Scope:** LiveKit **Cloud** with **Telephony** enabled. See [`OUTBOUND-EXOTEL-NOTES.md`](../../Livekit/livekit-outbound-caller-agent/OUTBOUND-EXOTEL-NOTES.md) for 403, E.164, and “no audio” patterns.
+
+> **Quickstart:** [`Livekit/integrations/exotel-vsip/QUICKSTART.md`](../../Livekit/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 

@@ -33,8 +33,12 @@ Treat the steps below as **minimum click/API paths** once those are true.
 | **Smallest AI (Atoms)** | [app.smallest.ai](https://app.smallest.ai/) | [Phone Numbers — Import SIP](https://atoms-docs.smallest.ai/platform/deployment/phone-numbers.md) · [Telephony](https://atoms-docs.smallest.ai/intro/capabilities/telephony.md) | [`exotel-smallest-ai-sip-trunk.md`](./exotel-smallest-ai-sip-trunk.md) |
 | **Vocallabs** | [API docs](https://docs.vocallabs.ai/vocallabs) | [Superflow B2B](https://api.superflow.run/b2b/) — `createSIPCall`, `initiateVocallabsCall` ([reference](https://docs.vocallabs.ai/vocallabs)) | [`exotel-vocallabs-sip-trunk.md`](./exotel-vocallabs-sip-trunk.md) |
 | **Rapida AI** | [rapida.ai](https://www.rapida.ai/) | [Exotel integration](https://doc.rapida.ai/integrations/telephony/exotel) · [SIP trunk](https://doc.rapida.ai/integrations/telephony/sip) · [Phone deployment](https://doc.rapida.ai/voice-deployment-options/phone) | [`exotel-rapida-ai-sip-trunk.md`](./exotel-rapida-ai-sip-trunk.md) |
+| **NLPearl.AI** | [platform.nlpearl.ai](https://platform.nlpearl.ai/) | [Custom VoIP](https://developers.nlpearl.ai/pages/custom_voip) · [Outbound/API](https://developers.nlpearl.ai/pages/outbound_api) · [Make Call API](https://developers.nlpearl.ai/api-reference/v1/outbound/make-call) | [`exotel-nlpearl-sip-trunk.md`](./exotel-nlpearl-sip-trunk.md) |
 
 **Exotel (all paths):** [API credentials (India)](https://my.in.exotel.com/apisettings/site#api-credentials) · [SIP API reference](https://docs.exotel.com/dynamic-sip-trunking/detailed-sip-trunking-api-reference) · [Network / firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration) · [Voice AI Flow / Connect](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk)
+
+**Exotel edge hostname examples (India):** `in.voip.exotel.com:5070` (TCP) · `in.voip.exotel.com:443` (TLS). Always use the exact host/IP + port + transport Exotel assigns (see [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)).  
+**ACL note:** only use `whitelisted-ips` for **static `/32`** IPs (`mask: 32`)—do **not** attempt CIDR ranges; if a provider publishes only CIDR/shared egress, prefer **digest** and coordinate with Exotel support.
 
 ---
 
@@ -103,6 +107,13 @@ Treat the steps below as **minimum click/API paths** once those are true.
 1. **Path A (native):** Rapida **Integration → Tools** → **Exotel** credentials; **Phone** deployment with **App ID** + DID; Exotel Flow → **`https://websocket-01.in.rapida.ai/v1/talk/exotel/call/...`** ([guide](https://doc.rapida.ai/integrations/telephony/exotel)).  
 2. **Path B (SIP):** Exotel vSIP **`destination-uris`** toward **`sip-01.in.rapida.ai:5060`**; **Connect** **`sip:<trunk_sid>`**; Rapida **SIP Trunk** credential toward Exotel **edge** for PSTN outbound if needed ([SIP guide](https://doc.rapida.ai/integrations/telephony/sip)).
 
+### NLPearl.AI (Custom VoIP — Option B)
+
+1. **Exotel:** trunk + DID + digest (`POST .../credentials`).  
+2. **NLPearl:** Settings → Phone Numbers → **Custom VoIP** → configure **Outbound** (SIP Trunk URL = `sip:<ACCOUNT_SID>.pstn.exotel.com`, credentials) and **Inbound** (save to get the NLPearl **SIP Domain**).  
+3. **Exotel inbound:** set trunk `destination-uris` to NLPearl SIP Domain + Exotel Flow Connect **`sip:<trunk_sid>`**.  
+4. Test outbound (UI/API) and inbound (call the DID).
+
 ---
 
 ## What was easy to miss (gaps we closed in docs)
@@ -117,6 +128,7 @@ Treat the steps below as **minimum click/API paths** once those are true.
 | **Vapi** needs **two** Exotel ACL lines for its SBC IPs | [`exotel-vapi-sip-trunk.md`](./exotel-vapi-sip-trunk.md) |
 | **Vocallabs** is **API-first** (`createSIPCall`, websockets) — not the same as BYO SIP trunk UI | [`exotel-vocallabs-sip-trunk.md`](./exotel-vocallabs-sip-trunk.md) |
 | **Rapida** has **native Exotel** (webhook/stream) **and** optional **SIP trunk** | [`exotel-rapida-ai-sip-trunk.md`](./exotel-rapida-ai-sip-trunk.md) |
+| **NLPearl** uses **Custom VoIP** (SIP Domain inbound + SIP Trunk URL outbound) | [`exotel-nlpearl-sip-trunk.md`](./exotel-nlpearl-sip-trunk.md) |
 
 ---
 

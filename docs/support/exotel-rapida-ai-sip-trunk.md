@@ -2,12 +2,16 @@
 
 This guide aligns **Exotel** with **[Rapida AI](https://www.rapida.ai/)** for voice assistants. Rapida documents **two** relevant patterns:
 
+> **Applicability:** **Hybrid** — **UI-driven** native Exotel integration (webhook/streaming) OR **SIP-driven** vSIP trunk path.
+
 1. **Native Exotel integration** — Exotel **app / Flow** calls Rapida’s **webhook + bidirectional media stream** (no Exotel vSIP trunk API required for this path).  
 2. **SIP trunk** — Exotel as **SIP carrier** (vSIP) ↔ Rapida’s **SIP server** at **`sip-01.in.rapida.ai:5060`** — same **trunk / credentials / destination-uris** patterns as other articles in this repo.
 
 > **Primary Rapida reference:** [Exotel integration](https://doc.rapida.ai/integrations/telephony/exotel) · [SIP trunk integration](https://doc.rapida.ai/integrations/telephony/sip) · [Phone deployment](https://doc.rapida.ai/voice-deployment-options/phone)
 
 > **Engineering detail:** [`rapida/integrations/exotel-vsip/rapida-exotel-voice-ai-connector.md`](../../rapida/integrations/exotel-vsip/rapida-exotel-voice-ai-connector.md)
+
+> **Quickstart:** [`rapida/integrations/exotel-vsip/QUICKSTART.md`](../../rapida/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 

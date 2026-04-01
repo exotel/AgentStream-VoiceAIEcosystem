@@ -1,6 +1,6 @@
 # Exotel vSIP trunk API — shared reference
 
-Use these snippets from the support articles for **ElevenLabs**, **LiveKit**, **Retell**, **Bolna**, **Pipecat (via Daily SIP)**, **Ultravox**, **Vapi**, **Smallest AI (Atoms)**, **Vocallabs**, and **Rapida AI** integrations. Replace placeholders; do not commit real secrets.
+Use these snippets from the support articles for **ElevenLabs**, **LiveKit**, **Retell**, **Bolna**, **Pipecat (via Daily SIP)**, **Ultravox**, **Vapi**, **Smallest AI (Atoms)**, **Vocallabs**, **Rapida AI**, and **NLPearl.AI** integrations. Replace placeholders; do not commit real secrets.
 
 | Placeholder | Description |
 |-------------|-------------|
@@ -20,6 +20,13 @@ Use these snippets from the support articles for **ElevenLabs**, **LiveKit**, **
 
 Exotel documents **SIP signaling toward their gateway** using **edge IP addresses and ports** — for example **TLS on port 443** or **TCP on port 5070** — per [Exotel network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration). Use the **IP:port** (and transport) Exotel gives you in onboarding or support.
 
+Exotel may also share **edge hostnames** (instead of raw IPs). Common India examples you may see are:
+
+- **TCP:** `in.voip.exotel.com:5070`
+- **TLS:** `in.voip.exotel.com:443`
+
+Use the exact **host/IP + port + transport** Exotel assigns to your account/cluster. If a provider UI requires an **IPv4 literal** (no hostname), resolve the hostname to the IPv4 Exotel intends you to use (or request the explicit edge IPs from Exotel support).
+
 The **`domain_name`** field in **Create trunk** is Exotel’s **account SIP domain** for the trunk record (`{ACCOUNT_SID}.pstn.exotel.com`). That is separate from the **edge IP:port** your Voice AI platform uses to send SIP to Exotel.
 
 ### Outbound trunk vs inbound SIP trunk
@@ -32,6 +39,8 @@ The **`domain_name`** field in **Create trunk** is Exotel’s **account SIP doma
 ### Trunk ACL (`whitelisted-ips`)
 
 Exotel trunk ACL is for **static IP allowlisting** from your Voice AI provider when they give you a **single fixed egress IP**. **Exotel does not support CIDR range whitelist on the trunk** — use **one IP per `POST`** with `mask: 32`. If the provider only offers non-static or range-based egress, use **digest credentials** and coordinate with Exotel on what is supported.
+
+**Important (auth precedence):** Avoid mixing **IP allowlisting** and **digest auth** unless Exotel support has confirmed the expected behavior for your account. In some SIP deployments, once an **IP allowlist** is enabled, the platform may treat **source-IP** as the primary trust signal, and digest behavior can become confusing (especially if a provider publishes **shared / multi-tenant** egress ranges). If your provider only publishes **CIDR ranges** (no dedicated static `/32` IPs), do **not** attempt to “whitelist the range” on Exotel — rely on **digest** and work with Exotel/provider support for the correct model.
 
 ---
 
@@ -143,4 +152,5 @@ curl -s "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}
 - [Exotel + Smallest AI support article](./exotel-smallest-ai-sip-trunk.md)
 - [Exotel + Vocallabs support article](./exotel-vocallabs-sip-trunk.md)
 - [Exotel + Rapida AI support article](./exotel-rapida-ai-sip-trunk.md)
+- [Exotel + NLPearl.AI support article](./exotel-nlpearl-sip-trunk.md)
 - [Exotel network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)

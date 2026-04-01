@@ -1,53 +1,46 @@
-# Quickstart: Exotel vSIP + Vapi (BYO SIP trunk)
+# Quickstart — Vapi (BYO SIP trunk) + Exotel vSIP
 
-**Prerequisites:** Exotel vSIP, KYC, Exophone (E.164), [Vapi](https://dashboard.vapi.ai/) account with **private API key**.
+Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Vapi** as the Voice AI platform via **BYO SIP trunk**.
 
-**Vapi SIP:** [SIP trunking](https://docs.vapi.ai/advanced/sip/sip-trunk) — `byo-sip-trunk` credential + `byo-phone-number`. **Allowlist** Vapi’s two SBC IPs on Exotel ([networking](https://docs.vapi.ai/advanced/sip/sip-networking)).
+## Prereqs
 
-**Exotel:** **Outbound** = create trunk → map DID → `POST .../credentials` → **`whitelisted-ips`** for **both** Vapi IPs (`mask: 32`). **Inbound** = `POST .../destination-uris` toward **`sip.vapi.ai`** (port/transport per Vapi) → **Connect** → **`sip:<trunk_sid>`**.
+- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IPv4** `IP:port` known
+- Vapi: dashboard access + private API key
 
----
+Shared Exotel API snippets:
 
-## 1 — Exotel: trunk + DID + digest
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
-Use shared snippets: [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+## Outbound (Vapi → Exotel → PSTN)
 
-Note **`user_name` / `password`** — reuse in Vapi **`outboundAuthenticationPlan`**.
+1. **Exotel**
+   - Create trunk
+   - Map DID to trunk
+   - Create digest credentials on the trunk (`POST .../credentials`)
+   - Whitelist both Vapi SBC IPs (`mask: 32` each): `44.229.228.186`, `44.238.177.138`
+2. **Vapi**
+   - Create `byo-sip-trunk` credential with gateway = Exotel **edge IPv4** and matching transport/port
+   - Set `outboundAuthenticationPlan` to the same digest as Exotel trunk credentials
+   - Create `byo-phone-number` linked to the credential
+3. Place a test call (Vapi `POST /call/phone`).
 
----
+## Inbound (PSTN → Exotel → Vapi)
 
-## 2 — Exotel: whitelist Vapi SBC (both IPs)
+1. **Vapi**
+   - Ensure inbound is enabled for the trunk/gateway if you want PSTN inbound
+2. **Exotel**
+   - Set trunk `destination-uris` toward `sip.vapi.ai` (port/transport per Vapi networking docs)
+   - In Exotel Flow, use **Connect** with `sip:<trunk_sid>`
+3. Call the Exotel DID and confirm Vapi answers.
 
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/whitelisted-ips" \
-  -H "Content-Type: application/json" \
-  -d '{"ip": "44.229.228.186", "mask": 32}'
+## If calls fail
 
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/whitelisted-ips" \
-  -H "Content-Type: application/json" \
-  -d '{"ip": "44.238.177.138", "mask": 32}'
-```
+- **Vapi gateway rejects hostname**: Vapi requires IPv4 in `gateways[].ip`. Use Exotel-provided IPv4 (do not guess).
+- **401/403**: digest mismatch, or missing one of the two Vapi SBC allowlist entries.
+- Use the full guide: [`docs/support/exotel-vapi-sip-trunk.md`](../../../docs/support/exotel-vapi-sip-trunk.md)
 
----
+## Links
 
-## 3 — Vapi: resolve Exotel edge to IPv4
-
-Vapi **`gateways[].ip`** must be **IPv4** ([troubleshoot](https://docs.vapi.ai/advanced/sip/troubleshoot-sip-trunk-credential-errors)). Resolve Exotel’s edge host to an address, then use **`IP:port`** and **`outboundProtocol`** per Exotel.
-
----
-
-## 4 — Vapi: credential + phone number
-
-`POST https://api.vapi.ai/credential` (`byo-sip-trunk`) and `POST https://api.vapi.ai/phone-number` (`byo-phone-number`) — see [`vapi-exotel-voice-ai-connector.md`](./vapi-exotel-voice-ai-connector.md).
-
----
-
-## 5 — Inbound (optional)
-
-`POST .../destination-uris` toward Vapi (example shape in [`exotel-vapi-sip-trunk.md`](../../../docs/support/exotel-vapi-sip-trunk.md)); Flow **Connect** **`sip:<trunk_sid>`**.
-
----
-
-## Shared curls
-
-[`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+- Vapi SIP trunking: https://docs.vapi.ai/advanced/sip/sip-trunk
+- Vapi networking: https://docs.vapi.ai/advanced/sip/sip-networking
+- Repo support article: [`docs/support/exotel-vapi-sip-trunk.md`](../../../docs/support/exotel-vapi-sip-trunk.md)

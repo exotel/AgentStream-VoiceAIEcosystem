@@ -2,9 +2,12 @@
 
 This guide aligns **Exotel Virtual SIP Trunking (vSIP)** with **[Ultravox](https://www.ultravox.ai/)** using the same patterns as the other Voice AI integrations in this repository: **outbound** = create trunk → map DID → credentials; **optional ACL** = static IPs only (`mask: 32`), no CIDR ranges on the Exotel trunk; **inbound** = destination URI on the trunk; **Connect** = **`sip:<trunk_sid>`** where Exotel’s product uses that form.
 
+> **Applicability:** **Hybrid** — Ultravox supports SIP (allowlist/registration) and also a native **Exotel streaming** medium; choose one path.
+
 Ultravox documents **two** relevant approaches: a **native `exotel` call medium** (Voice Streaming — see [Telephony platforms](https://docs.ultravox.ai/telephony/telephony-platforms) and Exotel Voice Streaming docs), and **generic SIP** ([SIP guide](https://docs.ultravox.ai/telephony/sip)). **This article focuses on SIP + vSIP.** For the native medium, use Ultravox + Exotel streaming docs directly.
 
 **Engineering detail:** [`ultravox/integrations/exotel-vsip/ultravox-exotel-voice-ai-connector.md`](../../ultravox/integrations/exotel-vsip/ultravox-exotel-voice-ai-connector.md)
+**Quickstart:** [`ultravox/integrations/exotel-vsip/QUICKSTART.md`](../../ultravox/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 

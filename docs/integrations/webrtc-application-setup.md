@@ -90,7 +90,7 @@ Use these when a **backend** places calls or controls legs (not only the browser
 
 - **Endpoint pattern:** `POST` `https://API_KEY:API_TOKEN@<cluster>/v1/Accounts/<AccountSid>/Calls/connect`
 - **Key params:** `From`, `CallerId` (your Exotel number), `CallType` (`trans`), **`Url`** = your **app/flow** entry (Exotel documents the `…/exoml/start/~appid~` style — see [Outbound call to connect a customer to an app](https://docs.exotel.com/voice-apis/outbound-call-to-connect-a-customer-to-an-app)).
-- **Optional:** `StatusCallback`, `TimeLimit`, `TimeOut`; **rate limit** stated in doc (e.g. **200 calls/minute** — confirm current limit in Exotel docs).
+- **Optional:** `StatusCallback`, `TimeLimit`, `TimeOut`; **rate limit** stated in doc (confirm current limit in Exotel docs — and distinguish **Voice API** rate limits from **vSIP trunk API** limit of **200 requests/minute**).
 - **Samples:** Exotel references **cURL, Node, PHP, Ruby** via [developer portal](https://developer.exotel.com/) and samples such as [ExotelAPI (GitHub)](https://github.com/exotel/ExotelAPI).
 
 ### Leg Actions (control an existing call)

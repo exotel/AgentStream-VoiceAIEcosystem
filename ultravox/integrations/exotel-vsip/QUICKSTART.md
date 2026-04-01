@@ -1,59 +1,42 @@
-# Quickstart: Exotel vSIP + Ultravox (SIP)
+# Quickstart — Ultravox (SIP) + Exotel vSIP
 
-**Prerequisites:** Ultravox account, Exotel vSIP + API credentials, agent created in Ultravox.
+Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Ultravox SIP** for the Voice AI leg.
 
-**Ultravox SIP:** [SIP guide](https://docs.ultravox.ai/telephony/sip) — incoming via **IP allowlist** ([`allowedCidrRanges`](https://docs.ultravox.ai/api-reference/sip/sip-partial-update)) or **SIP registration**; outgoing via `medium.sip.outgoing` ([Create call](https://docs.ultravox.ai/api-reference/calls/calls-post)). Fetch your account SIP **`domain`** with [GET `/api/sip`](https://docs.ultravox.ai/api-reference/sip/sip-get).
+## Prereqs
 
-**Exotel:** **Outbound** = create trunk → map DID → `POST .../credentials`. **Inbound** = `POST .../destination-uris` toward Ultravox; **Flow → Connect** → **`sip:<trunk_sid>`**.
+- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Ultravox: account + agent created; SIP enabled
 
----
+Shared Exotel API snippets:
 
-## 1 — Ultravox: read SIP domain
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
-```http
-GET https://api.ultravox.ai/api/sip
-X-API-Key: <YOUR_KEY>
-```
+## Outbound (Ultravox → Exotel → PSTN)
 
-Note **`domain`** — default INVITE target pattern is `agent_{agent_id}@{domain}` ([SIP guide](https://docs.ultravox.ai/telephony/sip)).
+1. **Exotel**
+   - Create trunk
+   - Map DID to trunk
+   - Create digest credentials on the trunk (`POST .../credentials`)
+2. **Ultravox**
+   - Place an outgoing SIP call using `medium.sip.outgoing` toward Exotel edge `IP:port`
+   - Provide `username/password` matching Exotel trunk credentials
 
----
+## Inbound (PSTN → Exotel → Ultravox)
 
-## 2 — Ultravox: allowlist Exotel signaling (inbound SIP)
+1. **Ultravox**
+   - Determine your SIP `domain` (GET `/api/sip`) and the expected INVITE target pattern
+   - Allowlist Exotel signaling on Ultravox (`allowedCidrRanges`) using `/32` where applicable (Ultravox-side CIDR)
+2. **Exotel**
+   - Set trunk `destination-uris` toward Ultravox SIP host/URI (per Ultravox docs)
+   - In Exotel Flow, use **Connect** with `sip:<trunk_sid>`
+3. Call the Exotel DID and confirm Ultravox answers.
 
-Add Exotel’s **SIP signalling IP:port** / ranges from [Exotel network](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration) to Ultravox **`allowedCidrRanges`** using [SIP partial update](https://docs.ultravox.ai/api-reference/sip/sip-partial-update). Use **`x.x.x.x/32`** for a single IPv4 address (Ultravox documents this pattern in the [SIP guide](https://docs.ultravox.ai/telephony/sip)).
+## If calls fail
 
----
+- Ultravox inbound allowlisting uses CIDR on **Ultravox side**; Exotel trunk ACL is `/32` per-IP only and should not be used for CIDR ranges.
+- Use the full guide: [`docs/support/exotel-ultravox-sip-trunk.md`](../../../docs/support/exotel-ultravox-sip-trunk.md)
 
-## 3 — Exotel: trunk + credentials (outbound / termination)
+## Links
 
-```bash
-# Create trunk → map DID → POST .../credentials
-# See shared snippets
-```
-
-Digest must match what you pass in Ultravox **`medium.sip.outgoing`** (`username` / `password`) when Exotel is the next hop.
-
----
-
-## 4 — Exotel: inbound (PSTN → Ultravox)
-
-`POST .../destination-uris` on the trunk toward Ultravox’s SIP host (host/port/transport from Ultravox + your testing). **Connect** applet: **`sip:<trunk_sid>`** in **Dial whom**.
-
----
-
-## 5 — Alternative: SIP registration
-
-If you use **SIP registration** (Ultravox registers to your PBX), configure the **Exotel-side user** and map per [SIP guide — registration](https://docs.ultravox.ai/telephony/sip#sip-registration) and [create registration API](https://docs.ultravox.ai/api-reference/sip/sip-registrations-create).
-
----
-
-## Native Exotel medium (non–SIP-trunk)
-
-For **`"exotel": {}`** + Voice Streaming (no vSIP BYOT), see [Telephony platforms — Exotel](https://docs.ultravox.ai/telephony/telephony-platforms) and Exotel Voice Streaming docs.
-
----
-
-## Shared curls
-
-[`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+- Ultravox SIP guide: https://docs.ultravox.ai/telephony/sip
+- Repo support article: [`docs/support/exotel-ultravox-sip-trunk.md`](../../../docs/support/exotel-ultravox-sip-trunk.md)

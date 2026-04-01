@@ -1,44 +1,50 @@
-# Quickstart: Exotel vSIP + Pipecat (via Daily SIP)
+# Quickstart — Pipecat (via Daily SIP) + Exotel vSIP
 
-**Pipecat** uses **Daily** for media. **SIP** is enabled on **Daily rooms** ([Daily SIP](https://docs.daily.co/guides/products/dial-in-dial-out/sip)). **Exotel vSIP** applies when **Exotel** is your **PSTN carrier** or **SIP peer** to Daily.
+Goal: first successful **PSTN↔agent** call where **Exotel is the India PSTN carrier** and **Pipecat** bridges into **Daily SIP / rooms**.
 
-**Inbound (typical):** Follow [Pipecat’s PSTN + Daily SIP guide](https://docs.pipecat.ai/guides/telephony/twilio-daily-sip) — use **Exotel’s** call-control to attach the live call to Daily’s **`sip_uri`** after the room is ready (`on_dialin_ready`).
+## Prereqs
 
-**Outbound (SIP):** Daily can **SIP dial-out** to a `sip:` URI ([Daily SIP dial-out](https://docs.daily.co/guides/products/dial-in-dial-out/sip)). Point that leg at **Exotel’s edge `IP:port`** with digest auth aligned to Exotel **`POST .../credentials`**.
+- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Daily: paid account with SIP enabled ([Daily SIP](https://docs.daily.co/guides/products/dial-in-dial-out/sip))
+- Pipecat: follow Pipecat telephony guide using Daily SIP ([Pipecat PSTN + Daily SIP](https://docs.pipecat.ai/guides/telephony/twilio-daily-sip))
 
----
+Shared Exotel API snippets:
 
-## 1 — Daily (Pipecat)
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
-1. Paid Daily account with **SIP** enabled ([Daily SIP prerequisites](https://docs.daily.co/guides/products/dial-in-dial-out/sip)).  
-2. Implement the **PSTN + SIP** pattern from Pipecat’s guide — **DailyTransport**, **`on_dialin_ready`**, bridge to **`sip_endpoint`**.  
-3. Confirm codecs: Daily supports **PCMU/PCMA** (common with PSTN); align with Exotel / your region.
+## Outbound (Daily SIP dial-out → Exotel → PSTN)
 
----
+1. **Exotel**
+   - Create trunk
+   - Map DID to trunk
+   - Create digest credentials on the trunk (`POST .../credentials`)
+2. **Daily / your Pipecat dial-out logic**
+   - SIP dial-out toward Exotel using the Exotel edge `IP:port`
+   - Use digest auth aligned to Exotel trunk credentials
 
-## 2 — Exotel: outbound SIP (carrier toward PSTN)
+Optional:
 
-When **Daily** (or your dial-out logic) sends SIP to **Exotel** to reach PSTN:
+- Exotel trunk `whitelisted-ips` only if your Daily/SIP egress is **static `/32`** (one IP per POST, `mask: 32`). Do **not** attempt CIDR ranges on Exotel trunk.
 
-```bash
-# Create trunk → map DID → POST .../credentials
-# See shared snippets for full curls
-```
+## Inbound (PSTN → Exotel → Daily SIP / Pipecat)
 
-**Order:** create trunk → map DID → **`POST .../credentials`** (`user_name`, `password`).
+Preferred (typical for Pipecat):
 
-**Optional ACL:** `POST .../whitelisted-ips` **only** if Daily (or your egress) publishes a **single static IP** — **`mask: 32`**, no CIDR range on the trunk.
+1. Use Pipecat’s **webhook + `sip_uri` bridge** model (dynamic Daily `sip_uri` per call) instead of a single static destination URI.
 
----
+Static inbound SIP (only if you have a fixed SIP ingress target):
 
-## 3 — Exotel: inbound PSTN (when using static SIP partner)
+1. **Exotel**
+   - Set trunk `destination-uris` toward your fixed SIP ingress target
+   - In Exotel Flow, use **Connect** with `sip:<trunk_sid>`
 
-If a **fixed** SIP ingress is used (less common for Pipecat + dynamic Daily rooms), set **`destination-uris`** on the trunk toward that host and use **Flow → Connect** with **`sip:<trunk_sid>`** per Exotel docs.
+## If calls fail
 
-For **dynamic Daily `sip_uri` per call**, prefer the **webhook + bridge** model from Pipecat’s PSTN guide rather than a single static destination.
+- **Not “5 minutes”**: Pipecat + Daily is intentionally more engineering-heavy than the “single static SIP host” providers.
+- Use the full guide: [`docs/support/exotel-pipecat-sip-trunk.md`](../../../docs/support/exotel-pipecat-sip-trunk.md)
 
----
+## Links
 
-## Shared curls
-
-[`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+- Pipecat telephony guide: https://docs.pipecat.ai/guides/telephony/twilio-daily-sip
+- Daily SIP: https://docs.daily.co/guides/products/dial-in-dial-out/sip
+- Repo support article: [`docs/support/exotel-pipecat-sip-trunk.md`](../../../docs/support/exotel-pipecat-sip-trunk.md)

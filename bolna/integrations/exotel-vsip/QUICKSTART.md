@@ -1,98 +1,47 @@
-# Quickstart: Exotel vSIP + Bolna AI (BYOT SIP)
+# Quickstart — Bolna (BYOT SIP) + Exotel vSIP
 
-**Outbound Exotel (minimal):** create trunk → map DID → `POST .../credentials`.  
-**Bolna:** create SIP trunk with **gateway** = Exotel **edge `IP:port`**, **`auth_type`: `userpass`**, credentials **matching** Exotel.
+Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Bolna BYOT SIP** for the Voice AI leg.
 
-**Prerequisites:** Exotel vSIP, KYC, Exophone (E.164), Bolna account with **SIP trunking (Beta)** — [enterprise@bolna.ai](mailto:enterprise@bolna.ai).
+## Prereqs
 
----
+- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Bolna: SIP trunking enabled (BYOT is Beta per Bolna docs)
 
-## 1 — Exotel: trunk + DID + digest
+Shared Exotel API snippets:
 
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "trunk_name": "Bolna_Out_Trunk",
-    "nso_code": "ANY-ANY",
-    "domain_name": "'"${ACCOUNT_SID}"'.pstn.exotel.com"
-  }'
-```
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/phone-numbers" \
-  -H "Content-Type: application/json" \
-  -d "{\"phone_number\": \"${EXOPHONE}\"}"
-```
+## Outbound (Bolna → Exotel → PSTN)
 
-```bash
-curl -s -X POST \
-  "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/credentials" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_name": "'"${SIP_USER}"'",
-    "password": "'"${SIP_PASS}"'",
-    "friendly_name": "bolna"
-  }'
-```
+1. **Exotel**
+   - Create trunk
+   - Map DID to trunk
+   - Create digest credentials on the trunk (`POST .../credentials`)
+2. **Bolna**
+   - Create a SIP trunk with **gateway** = Exotel **edge `IP:port`**
+   - Use `userpass` auth and set username/password to match Exotel digest
+   - Assign the DID/phone number to your Bolna agent and place an outbound call
 
----
+Optional:
 
-## 2 — Bolna: create SIP trunk (Bearer token)
+- Exotel trunk `whitelisted-ips` only if Bolna provides a **static `/32`** egress IP. (Use one IP per POST, `mask: 32`; do not attempt CIDR ranges on Exotel trunk.)
 
-```bash
-curl -s -X POST "https://api.bolna.ai/sip-trunks/trunks" \
-  -H "Authorization: Bearer ${BOLNA_API_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Exotel India",
-    "provider": "custom",
-    "auth_type": "userpass",
-    "auth_username": "'"${SIP_USER}"'",
-    "auth_password": "'"${SIP_PASS}"'",
-    "gateways": [
-      {
-        "gateway_address": "<EXOTEL_EDGE_IP>",
-        "port": 443,
-        "priority": 1
-      }
-    ],
-    "allow": "ulaw,alaw",
-    "inbound_enabled": true,
-    "outbound_leading_plus_enabled": true
-  }'
-```
+## Inbound (PSTN → Exotel → Bolna)
 
-Replace `gateway_address` / `port` with **Exotel edge IP and port** from Exotel ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Field names and defaults follow [Create SIP Trunk](https://www.bolna.ai/docs/api-reference/sip-trunks/create).
+1. **Bolna**
+   - Confirm inbound BYOT SIP ingress details in Bolna docs (may be IP-based)
+2. **Exotel**
+   - Set trunk `destination-uris` toward Bolna inbound SIP host
+   - In Exotel Flow, use **Connect** with `sip:<trunk_sid>`
+3. Call the DID and confirm Bolna answers.
 
-Add **phone numbers** to the Bolna trunk per Bolna [BYOT setup](https://www.bolna.ai/docs/sip-trunking/byot-setup) / `POST` add number APIs.
+## If calls fail
 
-Set agent **`telephony_provider`** to **`sip-trunk`** and place calls per [Make Outbound Calls via Your SIP Trunk](https://www.bolna.ai/docs/sip-trunking/byot-outbound-calls).
+- **401/403**: digest mismatch between Exotel `/credentials` and Bolna `userpass`.
+- **Inbound not reaching Bolna**: wrong `destination-uris` target, or Connect not set to `sip:<trunk_sid>`.
+- Use the full guide: [`docs/support/exotel-bolna-sip-trunk.md`](../../../docs/support/exotel-bolna-sip-trunk.md)
 
----
+## Links
 
-## 3 — Optional: Exotel ACL (static IP)
-
-If Bolna’s egress is a **single static IP** (Bolna docs reference **13.200.45.61** for provider allowlisting in some flows):
-
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/whitelisted-ips" \
-  -H "Content-Type: application/json" \
-  -d '{"ip": "13.200.45.61", "mask": 32}'
-```
-
-Confirm current IPs in **Bolna** and **Exotel** documentation. Exotel trunk **does not support CIDR range** ACL — use **`mask: 32`** per IP.
-
----
-
-## 4 — Inbound: destination URI on Exotel trunk
-
-Bolna expects your carrier to send INVITEs toward **`sip:13.200.45.61:5060`** ([inbound BYOT](https://www.bolna.ai/docs/sip-trunking/byot-inbound-calls)). Map Exotel **destination URI** accordingly (format per Exotel API).
-
-**Flow → Connect:** **`sip:<trunk_sid>`** in Dial whom.
-
----
-
-## Shared Exotel curls
-
-[`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+- Bolna BYOT setup: https://www.bolna.ai/docs/sip-trunking/byot-setup
+- Repo support article: [`docs/support/exotel-bolna-sip-trunk.md`](../../../docs/support/exotel-bolna-sip-trunk.md)

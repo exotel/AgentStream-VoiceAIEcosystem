@@ -1,76 +1,47 @@
-# Quickstart: Exotel vSIP + Retell AI (elastic SIP, outbound digest)
+# Quickstart — Retell AI + Exotel vSIP
 
-**Outbound Exotel steps:** create trunk → map DID → credentials. **Optional ACL:** only if Retell gives a **static egress IP** (`mask: 32`); **no CIDR range** on trunk. **Inbound:** destination URI on trunk; **Connect** → **`sip:<trunk_sid>`**.
+Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Retell** as the Voice AI platform (elastic SIP / custom telephony).
 
-**Prerequisites:** Exotel vSIP, KYC, Exophone (E.164), Retell [custom telephony](https://docs.retellai.com/deploy/custom-telephony).
+## Prereqs
 
----
+- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Retell: Custom telephony enabled ([docs](https://docs.retellai.com/deploy/custom-telephony))
 
-## 1 — Exotel: create trunk and map DID
+Shared Exotel API snippets:
 
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "trunk_name": "Retell_Out_Trunk",
-    "nso_code": "ANY-ANY",
-    "domain_name": "'"${ACCOUNT_SID}"'.pstn.exotel.com"
-  }'
-```
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/phone-numbers" \
-  -H "Content-Type: application/json" \
-  -d "{\"phone_number\": \"${EXOPHONE}\"}"
-```
+## Outbound (Retell → Exotel → PSTN)
 
----
+1. **Exotel**
+   - Create trunk
+   - Map DID to trunk
+   - Create digest credentials on the trunk (`POST .../credentials`)
+2. **Retell**
+   - Import the Exotel DID using Retell custom telephony
+   - Set SIP auth to the same digest credentials as Exotel
+   - Set Retell termination toward Exotel using the Exotel **edge `IP:port`**
 
-## 2 — Exotel: SIP digest
+Optional:
 
-```bash
-curl -s -X POST \
-  "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/credentials" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_name": "'"${SIP_USER}"'",
-    "password": "'"${SIP_PASS}"'",
-    "friendly_name": "retell"
-  }'
-```
+- Exotel trunk `whitelisted-ips` only if Retell provides **static `/32`** egress IPs (one IP per POST, `mask: 32`). Do **not** attempt CIDR ranges on Exotel trunk.
 
----
+## Inbound (PSTN → Exotel → Retell)
 
-## 3 — Retell: import number
+1. **Retell**
+   - Confirm the inbound SIP destination details in Retell docs for your configuration
+2. **Exotel**
+   - Set trunk `destination-uris` toward Retell SIP ingress (example is in the support article)
+   - In Exotel Flow, use **Connect** with `sip:<trunk_sid>`
+3. Call the Exotel DID and confirm Retell answers.
 
-Per [Custom telephony](https://docs.retellai.com/deploy/custom-telephony): import the Exotel DID; digest must match step 2. Termination toward Exotel uses **Exotel edge `IP:port`**.
+## If calls fail
 
----
+- **401/403**: digest mismatch between Exotel `/credentials` and Retell custom telephony configuration.
+- **Inbound not reaching Retell**: wrong `destination-uris` host/transport, or Flow Connect is not `sip:<trunk_sid>`.
+- Use the full troubleshooting guide: [`docs/support/exotel-retell-sip-trunk.md`](../../../docs/support/exotel-retell-sip-trunk.md)
 
-## 4 — Optional: static IP ACL
+## Links
 
-Only if Retell provides a **single static IP**:
-
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/whitelisted-ips" \
-  -H "Content-Type: application/json" \
-  -d '{"ip": "<STATIC_IP>", "mask": 32}'
-```
-
----
-
-## 5 — Inbound: destination URI (on trunk)
-
-```bash
-curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOUNT_SID}/trunks/${TRUNK_SID}/destination-uris" \
-  -H "Content-Type: application/json" \
-  -d '{"destinations": [{"destination": "sip.retellai.com:5060;transport=tcp"}]}'
-```
-
-**Connect applet:** **`sip:<trunk_sid>`** in Dial whom.
-
----
-
-## Shared curls
-
-[`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+- Retell custom telephony: https://docs.retellai.com/deploy/custom-telephony
+- Repo support article: [`docs/support/exotel-retell-sip-trunk.md`](../../../docs/support/exotel-retell-sip-trunk.md)

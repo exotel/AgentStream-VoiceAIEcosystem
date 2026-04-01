@@ -2,11 +2,19 @@
 
 This guide explains how to connect **Exotel Virtual SIP Trunking (vSIP)** to **ElevenLabs Conversational AI** so you can place and receive PSTN calls in India through Exotel while your agent runs on ElevenLabs.
 
+> **Applicability:** **UI-driven** (ElevenLabs console for agents + phone numbers) with optional **API-driven** outbound triggering.
+
 > **Exotel edge:** Exotel provides **SIP edge IP address(es) and port(s)** for signaling (for example **TLS `443`** or **TCP `5070`** per [Exotel network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Configure **`<EXOTEL_EDGE_IP>:<PORT>`** in ElevenLabs — use the values Exotel assigns for your account.
+
+> **Edge hostnames you may see (India):** `in.voip.exotel.com:5070` (TCP) and `in.voip.exotel.com:443` (TLS). Use the exact host/IP + port + transport Exotel assigns. See [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md) for details.
+
+> **ACL vs digest (important):** Avoid trying to whitelist **CIDR ranges**. Exotel trunk ACL is intended for **static `/32` IPs** only (`mask: 32`). If a provider publishes only **CIDR** / shared egress ranges, prefer **digest** and coordinate with Exotel/provider support—mixing allowlists and digest can cause auth/routing issues in multi-tenant egress setups.
 
 > **Product status:** Exotel vSIP may be labeled Alpha or require enablement. **UDP transport is not supported** for the flows below — use **TCP** or **TLS** only. Confirm details with Exotel.
 
 > **Deeper reference:** [`elevenlabs/integrations/exotel-vsip/elevenlabs-voice-ai-connector.md`](../../elevenlabs/integrations/exotel-vsip/elevenlabs-voice-ai-connector.md)
+
+> **Quickstart:** [`elevenlabs/integrations/exotel-vsip/QUICKSTART.md`](../../elevenlabs/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 

@@ -2,9 +2,13 @@
 
 This guide links **Exotel Virtual SIP Trunking (vSIP)** and your **Exotel DID** to **[Vocallabs](https://docs.vocallabs.ai/vocallabs)**. Vocallabs publishes a **B2B REST API** on **`https://api.superflow.run/b2b/`** — including **`createSIPCall`** with `did`, `phone_number`, `websocket_url`, and `webhook_url` — not the same **dashboard BYO SIP trunk** pattern as Vapi or ElevenLabs. Use this article for **API + telephony alignment**; confirm **inbound SIP URIs** and **static egress IPs** with Vocallabs if you need classic trunk **`destination-uris`** / **`whitelisted-ips`**.
 
+> **Applicability:** **API-driven** (token + `createSIPCall` / websockets / webhooks). SIP trunk routing is optional and only applies if Vocallabs provides a stable SIP target.
+
 > **Docs:** [Vocallabs API documentation](https://docs.vocallabs.ai/vocallabs) (hosted API reference and samples).
 
 > **Engineering detail:** [`vocallabs/integrations/exotel-vsip/vocallabs-exotel-voice-ai-connector.md`](../../vocallabs/integrations/exotel-vsip/vocallabs-exotel-voice-ai-connector.md)
+
+> **Quickstart:** [`vocallabs/integrations/exotel-vsip/QUICKSTART.md`](../../vocallabs/integrations/exotel-vsip/QUICKSTART.md)
 
 ---
 

@@ -1,10 +1,10 @@
-# Quickstart — Vapi (BYO SIP trunk) + Exotel vSIP
+# Quickstart — Vapi (BYO SIP trunk) + Exotel SIP trunking
 
 Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Vapi** as the Voice AI platform via **BYO SIP trunk**.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IPv4** `IP:port` known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IPv4** `IP:port` known
 - Vapi: dashboard access + private API key
 
 Shared Exotel API snippets:

@@ -1,10 +1,10 @@
-# Quickstart — Smallest AI (Atoms Import SIP) + Exotel vSIP
+# Quickstart — Smallest AI (Atoms Import SIP) + Exotel SIP trunking
 
 Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Atoms Import SIP** for the Voice AI leg.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - Smallest (Atoms): account access; Phone Numbers → Import SIP available
 
 Shared Exotel API snippets:

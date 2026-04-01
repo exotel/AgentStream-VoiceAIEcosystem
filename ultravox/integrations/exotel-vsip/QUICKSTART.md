@@ -1,10 +1,10 @@
-# Quickstart — Ultravox (SIP) + Exotel vSIP
+# Quickstart — Ultravox (SIP) + Exotel SIP trunking
 
 Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Ultravox SIP** for the Voice AI leg.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - Ultravox: account + agent created; SIP enabled
 
 Shared Exotel API snippets:

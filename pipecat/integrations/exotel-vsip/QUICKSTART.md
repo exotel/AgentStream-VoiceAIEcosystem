@@ -1,10 +1,10 @@
-# Quickstart — Pipecat (via Daily SIP) + Exotel vSIP
+# Quickstart — Pipecat (via Daily SIP) + Exotel SIP trunking
 
 Goal: first successful **PSTN↔agent** call where **Exotel is the India PSTN carrier** and **Pipecat** bridges into **Daily SIP / rooms**.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - Daily: paid account with SIP enabled ([Daily SIP](https://docs.daily.co/guides/products/dial-in-dial-out/sip))
 - Pipecat: follow Pipecat telephony guide using Daily SIP ([Pipecat PSTN + Daily SIP](https://docs.pipecat.ai/guides/telephony/twilio-daily-sip))
 

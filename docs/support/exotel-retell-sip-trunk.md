@@ -1,6 +1,6 @@
-# Connect Exotel Virtual SIP Trunk to Retell AI
+# Connect Exotel SIP trunking to Retell AI
 
-This guide connects **Exotel vSIP** to **Retell AI** using elastic SIP per [Retell custom telephony](https://docs.retellai.com/deploy/custom-telephony), with Exotel as the Indian PSTN provider.
+This guide connects **Exotel SIP trunking** to **Retell AI** using elastic SIP per [Retell custom telephony](https://docs.retellai.com/deploy/custom-telephony), with Exotel as the Indian PSTN provider.
 
 > **Applicability:** **UI-driven** (Retell dashboard custom telephony) with optional **API-driven** call control.
 
@@ -41,7 +41,7 @@ This guide connects **Exotel vSIP** to **Retell AI** using elastic SIP per [Rete
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (SIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### Outbound SIP
 

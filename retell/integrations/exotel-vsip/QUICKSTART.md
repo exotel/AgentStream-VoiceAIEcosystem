@@ -1,10 +1,10 @@
-# Quickstart — Retell AI + Exotel vSIP
+# Quickstart — Retell AI + Exotel SIP trunking
 
 Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Retell** as the Voice AI platform (elastic SIP / custom telephony).
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - Retell: Custom telephony enabled ([docs](https://docs.retellai.com/deploy/custom-telephony))
 
 Shared Exotel API snippets:

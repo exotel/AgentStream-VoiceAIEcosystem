@@ -1,10 +1,10 @@
-# Connect Exotel Virtual SIP Trunk to Ultravox
+# Connect Exotel SIP trunking to Ultravox
 
-This guide aligns **Exotel Virtual SIP Trunking (vSIP)** with **[Ultravox](https://www.ultravox.ai/)** using the same patterns as the other Voice AI integrations in this repository: **outbound** = create trunk → map DID → credentials; **optional ACL** = static IPs only (`mask: 32`), no CIDR ranges on the Exotel trunk; **inbound** = destination URI on the trunk; **Connect** = **`sip:<trunk_sid>`** where Exotel’s product uses that form.
+This guide aligns **Exotel SIP trunking** with **[Ultravox](https://www.ultravox.ai/)** using the same patterns as the other Voice AI integrations in this repository: **outbound** = create trunk → map DID → credentials; **optional ACL** = static IPs only (`mask: 32`), no CIDR ranges on the Exotel trunk; **inbound** = destination URI on the trunk; **Connect** = **`sip:<trunk_sid>`** where Exotel’s product uses that form.
 
 > **Applicability:** **Hybrid** — Ultravox supports SIP (allowlist/registration) and also a native **Exotel streaming** medium; choose one path.
 
-Ultravox documents **two** relevant approaches: a **native `exotel` call medium** (Voice Streaming — see [Telephony platforms](https://docs.ultravox.ai/telephony/telephony-platforms) and Exotel Voice Streaming docs), and **generic SIP** ([SIP guide](https://docs.ultravox.ai/telephony/sip)). **This article focuses on SIP + vSIP.** For the native medium, use Ultravox + Exotel streaming docs directly.
+Ultravox documents **two** relevant approaches: a **native `exotel` call medium** (Voice Streaming — see [Telephony platforms](https://docs.ultravox.ai/telephony/telephony-platforms) and Exotel Voice Streaming docs), and **generic SIP** ([SIP guide](https://docs.ultravox.ai/telephony/sip)). **This article focuses on SIP + Exotel SIP trunking.** For the native medium, use Ultravox + Exotel streaming docs directly.
 
 **Engineering detail:** [`ultravox/integrations/exotel-vsip/ultravox-exotel-voice-ai-connector.md`](../../ultravox/integrations/exotel-vsip/ultravox-exotel-voice-ai-connector.md)
 **Quickstart:** [`ultravox/integrations/exotel-vsip/QUICKSTART.md`](../../ultravox/integrations/exotel-vsip/QUICKSTART.md)
@@ -24,7 +24,7 @@ Ultravox documents **two** relevant approaches: a **native `exotel` call medium*
 
 ---
 
-## What you will set up (SIP + vSIP)
+## What you will set up (SIP + Exotel SIP trunking)
 
 | Direction | Summary |
 |-----------|---------|
@@ -60,9 +60,9 @@ Ultravox documents **two** relevant approaches: a **native `exotel` call medium*
 
 ---
 
-## Native Exotel medium (not vSIP)
+## Native Exotel medium (not SIP trunking)
 
-If you use the **`exotel`** call medium (`"exotel": {}`) plus Voice Streaming instead of BYOT SIP, see [Telephony platforms — Exotel](https://docs.ultravox.ai/telephony/telephony-platforms) and Exotel’s Voice Streaming API documentation — no vSIP trunk steps required for that path.
+If you use the **`exotel`** call medium (`"exotel": {}`) plus Voice Streaming instead of BYOT SIP, see [Telephony platforms — Exotel](https://docs.ultravox.ai/telephony/telephony-platforms) and Exotel’s Voice Streaming API documentation — no SIP trunk steps required for that path.
 
 ---
 

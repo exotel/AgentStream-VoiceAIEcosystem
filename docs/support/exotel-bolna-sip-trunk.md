@@ -1,12 +1,12 @@
-# Connect Exotel Virtual SIP Trunk to Bolna Voice AI
+# Connect Exotel SIP trunking to Bolna Voice AI
 
-This guide aligns **Exotel Virtual SIP Trunking (vSIP)** with **[Bolna AI](https://www.bolna.ai/)** using the same patterns as the other Voice AI integrations in this repository: **outbound Exotel** = create trunk → map DID → credentials; **inbound** = destination URI on the trunk; **Connect** = **`sip:<trunk_sid>`**; **ACL** = static IPs only (`mask: 32`), no CIDR ranges on the trunk.
+This guide aligns **Exotel SIP trunking** with **[Bolna AI](https://www.bolna.ai/)** using the same patterns as the other Voice AI integrations in this repository: **outbound Exotel** = create trunk → map DID → credentials; **inbound** = destination URI on the trunk; **Connect** = **`sip:<trunk_sid>`**; **ACL** = static IPs only (`mask: 32`), no CIDR ranges on the trunk.
 
 > **Applicability:** **Hybrid** — BYOT is **API/config-driven** (SIP trunk objects) and may also have portal steps depending on account access (SIP is Beta).
 
 **Outbound SIP is supported.** With BYOT, Bolna **places outbound PSTN calls over SIP** through your trunk: it resolves `from_number` to your trunk, then signals to your **gateway** (Exotel **edge IP:port**) using **userpass** (or **ip-based**) auth. That is the flow described in [Make Outbound Calls via Your SIP Trunk](https://www.bolna.ai/docs/sip-trunking/byot-outbound-calls). **Part B** below is exactly what Exotel needs on the **carrier** side for that outbound SIP leg.
 
-Bolna also offers a **dashboard connector** for Exotel (REST API link) — see [Connect Your Exotel Account to Bolna](https://www.bolna.ai/docs/exotel-connect-provider). This article focuses on **SIP BYOT** where you configure **Exotel vSIP** and a **Bolna SIP trunk** together.
+Bolna also offers a **dashboard connector** for Exotel (REST API link) — see [Connect Your Exotel Account to Bolna](https://www.bolna.ai/docs/exotel-connect-provider). This article focuses on **SIP BYOT** where you configure **Exotel SIP trunking** and a **Bolna SIP trunk** together.
 
 > **Bolna:** SIP trunking is **Beta**; **SRTP is not supported** (plain RTP). See [Bring Your Own SIP Trunk](https://www.bolna.ai/docs/sip-trunking/introduction).  
 > **Engineering detail:** [`bolna/integrations/exotel-vsip/bolna-exotel-voice-ai-connector.md`](../../bolna/integrations/exotel-vsip/bolna-exotel-voice-ai-connector.md)

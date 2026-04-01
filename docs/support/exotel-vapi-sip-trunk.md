@@ -1,6 +1,6 @@
-# Connect Exotel Virtual SIP Trunk to Vapi
+# Connect Exotel SIP trunking to Vapi
 
-This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Vapi](https://vapi.ai/)** using Vapi’s **Bring Your Own (BYO) SIP trunk** credential (`byo-sip-trunk`) and **BYO phone number** (`byo-phone-number`), with Exotel as the Indian PSTN carrier.
+This guide connects **Exotel SIP trunking** to **[Vapi](https://vapi.ai/)** using Vapi’s **Bring Your Own (BYO) SIP trunk** credential (`byo-sip-trunk`) and **BYO phone number** (`byo-phone-number`), with Exotel as the Indian PSTN carrier.
 
 > **Applicability:** **UI-driven + API-driven** (Vapi dashboard objects, also creatable via API).
 
@@ -35,7 +35,7 @@ This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Vapi](https://v
 
 | Direction | What to configure |
 |-----------|-------------------|
-| **Outbound SIP** | **Exotel:** create trunk → map DID → `POST .../credentials`. **`POST .../whitelisted-ips`** for **both** Vapi SBC IPs (`mask: 32` each). **Vapi:** BYO credential → gateway **`ip`** = **Exotel edge IPv4**, **`port`** / **`outboundProtocol`** aligned with Exotel (often **TCP** or **TLS** — confirm with Exotel for vSIP). **Digest** must match Exotel credentials. |
+| **Outbound SIP** | **Exotel:** create trunk → map DID → `POST .../credentials`. **`POST .../whitelisted-ips`** for **both** Vapi SBC IPs (`mask: 32` each). **Vapi:** BYO credential → gateway **`ip`** = **Exotel edge IPv4**, **`port`** / **`outboundProtocol`** aligned with Exotel (often **TCP** or **TLS** — confirm with Exotel for SIP trunking). **Digest** must match Exotel credentials. |
 | **Inbound SIP** | **Exotel:** **`POST .../destination-uris`** on the trunk toward Vapi’s SIP entry (typically **`sip.vapi.ai`** with port/transport per [Vapi networking](https://docs.vapi.ai/advanced/sip/sip-networking)). **Flow → Connect:** **`sip:<trunk_sid>`** in **Dial whom** (`trunk_sid` from create trunk, not a full URI). **Vapi:** enable **inbound** on the gateway if you receive PSTN-in via Exotel; follow Vapi’s inbound testing notes in [SIP trunking](https://docs.vapi.ai/advanced/sip/sip-trunk). |
 
 **Exotel trunk ACL:** no **CIDR ranges** — only **one static IP per `whitelisted-ips` call** (`mask: 32`). Vapi publishes **two** fixed signalling IPs; add **both**.
@@ -54,7 +54,7 @@ This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Vapi](https://v
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (SIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### Whitelist Vapi SBC (recommended for Vapi → Exotel)
 
@@ -97,7 +97,7 @@ If your account requires **TLS** signalling toward Vapi, use **`5061`** and **`t
 
 ### Connect applet (inbound)
 
-**Dial whom:** **`sip:<trunk_sid>`** — [Voice AI / vSIP](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
+**Dial whom:** **`sip:<trunk_sid>`** — [Voice AI / SIP trunking](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
 
 ---
 

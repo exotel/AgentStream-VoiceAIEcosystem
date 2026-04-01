@@ -1,6 +1,6 @@
-# Connect Exotel Virtual SIP Trunk to Pipecat (via Daily)
+# Connect Exotel SIP trunking to Pipecat (via Daily)
 
-This guide aligns **Exotel Virtual SIP Trunking (vSIP)** with **[Pipecat](https://pipecat.ai/)** using the same **Exotel** patterns as the other Voice AI integrations in this repository: **outbound** = create trunk → map DID → credentials; **optional ACL** = static IPs only (`mask: 32`), no CIDR ranges on the trunk; **inbound** = destination URI on the trunk when routing toward a **fixed** SIP partner; **Connect** = **`sip:<trunk_sid>`** where Exotel’s product uses that form.
+This guide aligns **Exotel SIP trunking** with **[Pipecat](https://pipecat.ai/)** using the same **Exotel** patterns as the other Voice AI integrations in this repository: **outbound** = create trunk → map DID → credentials; **optional ACL** = static IPs only (`mask: 32`), no CIDR ranges on the trunk; **inbound** = destination URI on the trunk when routing toward a **fixed** SIP partner; **Connect** = **`sip:<trunk_sid>`** where Exotel’s product uses that form.
 
 > **Applicability:** **API/engineering-driven** (Pipecat orchestration + Daily rooms/SIP). Inbound is typically a **dynamic** Daily `sip_uri` bridge, not a single static destination URI.
 

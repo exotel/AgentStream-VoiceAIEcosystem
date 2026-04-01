@@ -1,6 +1,6 @@
 # Connect Exotel Virtual SIP Trunk to LiveKit Telephony
 
-This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **LiveKit Cloud** telephony so PSTN calls can reach **LiveKit rooms** and outbound calls can use Exotel as the Indian PSTN leg.
+This guide connects **Exotel SIP trunking** to **LiveKit Cloud** telephony so PSTN calls can reach **LiveKit rooms** and outbound calls can use Exotel as the Indian PSTN leg.
 
 > **Applicability:** **UI-driven + developer-driven** (LiveKit Cloud console for trunks/dispatch; your app/agent joins rooms). Not a single “import trunk” wizard like some providers.
 
@@ -118,7 +118,7 @@ curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCO
 
 ### Connect applet (inbound)
 
-**Dial whom:** **`sip:<trunk_sid>`** — use the **`trunk_sid`** from create trunk (**not** a full SIP URI). Map DID to Flow. [Voice AI / vSIP guide](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
+**Dial whom:** **`sip:<trunk_sid>`** — use the **`trunk_sid`** from create trunk (**not** a full SIP URI). Map DID to Flow. [Voice AI / SIP trunk guide](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
 
 ---
 

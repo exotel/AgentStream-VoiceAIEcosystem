@@ -1,10 +1,10 @@
-# Quickstart — NLPearl Custom VoIP + Exotel vSIP (Option B)
+# Quickstart — NLPearl Custom VoIP + Exotel SIP trunking (Option B)
 
 Goal: first successful **inbound** and **outbound** call with **Exotel as PSTN carrier** and **NLPearl as Voice AI platform**.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - NLPearl: agent created + published, account ready for inbound/outbound activities
 
 Shared Exotel API snippets:

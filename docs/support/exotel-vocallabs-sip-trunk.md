@@ -1,6 +1,6 @@
-# Connect Exotel with Vocallabs (Superflow B2B API)
+# Connect Exotel SIP trunking with Vocallabs (Superflow B2B API)
 
-This guide links **Exotel Virtual SIP Trunking (vSIP)** and your **Exotel DID** to **[Vocallabs](https://docs.vocallabs.ai/vocallabs)**. Vocallabs publishes a **B2B REST API** on **`https://api.superflow.run/b2b/`** — including **`createSIPCall`** with `did`, `phone_number`, `websocket_url`, and `webhook_url` — not the same **dashboard BYO SIP trunk** pattern as Vapi or ElevenLabs. Use this article for **API + telephony alignment**; confirm **inbound SIP URIs** and **static egress IPs** with Vocallabs if you need classic trunk **`destination-uris`** / **`whitelisted-ips`**.
+This guide links **Exotel SIP trunking** and your **Exotel DID** to **[Vocallabs](https://docs.vocallabs.ai/vocallabs)**. Vocallabs publishes a **B2B REST API** on **`https://api.superflow.run/b2b/`** — including **`createSIPCall`** with `did`, `phone_number`, `websocket_url`, and `webhook_url` — not the same **dashboard BYO SIP trunk** pattern as Vapi or ElevenLabs. Use this article for **API + telephony alignment**; confirm **inbound SIP URIs** and **static egress IPs** with Vocallabs if you need classic trunk **`destination-uris`** / **`whitelisted-ips`**.
 
 > **Applicability:** **API-driven** (token + `createSIPCall` / websockets / webhooks). SIP trunk routing is optional and only applies if Vocallabs provides a stable SIP target.
 
@@ -31,7 +31,7 @@ This guide links **Exotel Virtual SIP Trunking (vSIP)** and your **Exotel DID** 
 
 | Concept | Exotel side | Vocallabs side |
 |--------|-------------|----------------|
-| **DID** | Exophone on vSIP trunk ([snippets](./_exotel-trunk-api-snippets.md)) | Use the same E.164 as **`did`** (or `from` in webhook flows) where the API expects your caller / rented number |
+| **DID** | Exophone on SIP trunk ([snippets](./_exotel-trunk-api-snippets.md)) | Use the same E.164 as **`did`** (or `from` in webhook flows) where the API expects your caller / rented number |
 | **PSTN termination** | Exotel edge **IP:port** + digest (`POST …/credentials`) | **Not** fully specified in the public reference as a single “SIP gateway hostname” like other providers — **coordinate with Vocallabs** for SIP leg details if `createSIPCall` is meant to drive traffic to Exotel |
 | **Inbound PSTN → AI** | Trunk **`destination-uris`** + Flow **Connect** **`sip:<trunk_sid>`** | Requires a **SIP origination target** from Vocallabs. If their team only documents **REST + websocket**, implement that path first; add **destination-uris** when they provide a stable SIP URI |
 
@@ -76,7 +76,7 @@ Replace **`did`** with your **Exotel number** in E.164 when that number is the i
 
 ---
 
-## Part B — Exotel (vSIP + DID)
+## Part B — Exotel (SIP trunk + DID)
 
 When you use Exotel as the **Indian PSTN carrier** for the same DID you pass to Vocallabs:
 
@@ -84,7 +84,7 @@ When you use Exotel as the **Indian PSTN carrier** for the same DID you pass to 
 2. Templates: [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).  
 3. **Optional:** `POST …/whitelisted-ips` **only** if Vocallabs publishes **fixed static egress IPs** (`mask: 32` per IP).  
 4. **Inbound** (only if Vocallabs gives you a **SIP URI** to send calls to):  
-   `POST …/destination-uris` toward that URI → **Flow → Connect** → **`sip:<trunk_sid>`** ([Voice AI / vSIP](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk)).
+   `POST …/destination-uris` toward that URI → **Flow → Connect** → **`sip:<trunk_sid>`** ([Voice AI / SIP trunking](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk)).
 
 ---
 
@@ -95,7 +95,7 @@ When you use Exotel as the **Indian PSTN carrier** for the same DID you pass to 
 | **401** on Superflow | Valid **`createAuthToken`** + **Bearer** header |
 | Call fails / wrong CLI | **`did`** / **`from`** match **E.164** Exotel number you own |
 | No media | **`websocket_url`**, **`getWebsocketUrl`**, firewall to Vocallabs / your bridge |
-| SIP vs API mismatch | Vocallabs may be **API-first** — confirm with their team before assuming full vSIP parity |
+| SIP vs API mismatch | Vocallabs may be **API-first** — confirm with their team before assuming full SIP trunk parity |
 
 ---
 

@@ -1,6 +1,6 @@
 # Connect Exotel Virtual SIP Trunk to ElevenLabs Conversational AI
 
-This guide explains how to connect **Exotel Virtual SIP Trunking (vSIP)** to **ElevenLabs Conversational AI** so you can place and receive PSTN calls in India through Exotel while your agent runs on ElevenLabs.
+This guide explains how to connect **Exotel SIP trunking** to **ElevenLabs Conversational AI** so you can place and receive PSTN calls in India through Exotel while your agent runs on ElevenLabs.
 
 > **Applicability:** **UI-driven** (ElevenLabs console for agents + phone numbers) with optional **API-driven** outbound triggering.
 
@@ -10,7 +10,7 @@ This guide explains how to connect **Exotel Virtual SIP Trunking (vSIP)** to **E
 
 > **ACL vs digest (important):** Avoid trying to whitelist **CIDR ranges**. Exotel trunk ACL is intended for **static `/32` IPs** only (`mask: 32`). If a provider publishes only **CIDR** / shared egress ranges, prefer **digest** and coordinate with Exotel/provider support—mixing allowlists and digest can cause auth/routing issues in multi-tenant egress setups.
 
-> **Product status:** Exotel vSIP may be labeled Alpha or require enablement. **UDP transport is not supported** for the flows below — use **TCP** or **TLS** only. Confirm details with Exotel.
+> **Product status:** Exotel SIP trunking may be labeled Alpha or require enablement. **UDP transport is not supported** for the flows below — use **TCP** or **TLS** only. Confirm details with Exotel.
 
 > **Deeper reference:** [`elevenlabs/integrations/exotel-vsip/elevenlabs-voice-ai-connector.md`](../../elevenlabs/integrations/exotel-vsip/elevenlabs-voice-ai-connector.md)
 
@@ -53,7 +53,7 @@ For FQDN-only inbound (no digest on trunk), **do not** add `POST .../credentials
 
 ### Exotel
 
-- [my.in.exotel.com](https://my.in.exotel.com) with **vSIP** enabled.
+- [my.in.exotel.com](https://my.in.exotel.com) with **SIP trunking** enabled.
 - **KYC**; Exophone (DID) in **E.164** (`+91…`).
 - **API Key**, **API Token**, **Account SID** from [API credentials](https://my.in.exotel.com/apisettings/site#api-credentials).
 - APIs: **`https://api.in.exotel.com`** (India).
@@ -139,7 +139,7 @@ curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCO
 2. **Dial whom:** **`sip:<trunk_sid>`** — paste the **`trunk_sid`** from the create-trunk API response (prefix `sip:` only; **not** a full SIP URI).
 3. Map the Exophone to this Flow.
 
-Overview: [Exotel Voice AI / vSIP](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
+Overview: [Exotel Voice AI / SIP trunking](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
 
 ---
 

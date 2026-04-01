@@ -1,6 +1,6 @@
-# Connect Exotel Virtual SIP Trunk to NLPearl.AI (Custom VoIP — Option B)
+# Connect Exotel SIP trunking to NLPearl.AI (Custom VoIP — Option B)
 
-This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[NLPearl.AI](https://platform.nlpearl.ai/)** using NLPearl’s **Custom VoIP** feature, where **Exotel is the SIP carrier** behind NLPearl (NLPearl’s portal drives the AI agent; Exotel provides the PSTN DID and SIP trunk).
+This guide connects **Exotel SIP trunking** to **[NLPearl.AI](https://platform.nlpearl.ai/)** using NLPearl’s **Custom VoIP** feature, where **Exotel is the SIP carrier** behind NLPearl (NLPearl’s portal drives the AI agent; Exotel provides the PSTN DID and SIP trunk).
 
 > **Applicability:** **UI-driven + API-driven** (Custom VoIP configuration in NLPearl portal; optional outbound via API).
 
@@ -10,7 +10,7 @@ This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[NLPearl.AI](htt
 
 > **ACL vs digest (important):** Exotel trunk ACL (`whitelisted-ips`) is intended for **static `/32` IPs** only (`mask: 32`). Do **not** attempt to whitelist **CIDR ranges** on the Exotel trunk. If your platform/provider doesn’t give static `/32` egress, prefer **digest** and coordinate with Exotel support.
 
-> **Option B definition (what we’re doing):** **NLPearl** is your Voice AI platform, and **Exotel vSIP** is the SIP provider behind NLPearl’s **Custom VoIP** (NLPearl controls the call; SIP signaling goes between NLPearl ↔ Exotel).
+> **Option B definition (what we’re doing):** **NLPearl** is your Voice AI platform, and **Exotel SIP trunking** is the SIP provider behind NLPearl’s **Custom VoIP** (NLPearl controls the call; SIP signaling goes between NLPearl ↔ Exotel).
 
 > **Engineering detail:** [`nlpearl/integrations/exotel-vsip/nlpearl-exotel-voice-ai-connector.md`](../../nlpearl/integrations/exotel-vsip/nlpearl-exotel-voice-ai-connector.md)
 
@@ -84,7 +84,7 @@ After saving inbound settings, NLPearl shows a **SIP Domain to connect**. You wi
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (SIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### B1. Create trunk + map DID + set digest credentials (outbound prerequisite)
 
@@ -112,7 +112,7 @@ curl -s -X PUT "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCOU
 
 Notes:
 - Use **the exact domain** NLPearl shows after saving inbound config.
-- Align **port + transport** with how you configured NLPearl (TLS vs TCP). If you’re unsure, start with what Exotel supports for your vSIP and what NLPearl’s Custom VoIP expects.
+- Align **port + transport** with how you configured NLPearl (TLS vs TCP). If you’re unsure, start with what Exotel supports for your SIP trunking and what NLPearl’s Custom VoIP expects.
 
 ### B3. Exotel Flow: Connect applet
 

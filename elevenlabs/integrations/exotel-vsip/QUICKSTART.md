@@ -1,10 +1,10 @@
-# Quickstart — ElevenLabs + Exotel vSIP
+# Quickstart — ElevenLabs + Exotel SIP trunking
 
 Goal: first successful **outbound** and (optionally) **inbound** call using **Exotel as the India PSTN carrier** and **ElevenLabs Conversational AI** as the Voice AI platform.
 
 Shared Exotel API snippets:
 
-- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
+- [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md) (Trunk APIs: **200 requests/minute**; outbound call initiation default: **200 calls/minute**, contact CSM for higher)
 
 Full support article:
 
@@ -14,7 +14,7 @@ Full support article:
 
 ## Prereqs
 
-- [ ] Exotel **vSIP** enabled; **KYC**; **Exophone** (E.164)  
+- [ ] Exotel **SIP trunking** enabled; **KYC**; **Exophone** (E.164)  
 - [ ] Exotel **API Key**, **API Token**, **Account SID**, **SUBDOMAIN** (`api.in.exotel.com` for India)  
 - [ ] **ElevenLabs** Conversational AI + SIP; **API key**  
 - [ ] **Exotel edge `IP:port`** for ElevenLabs “outbound address” (from Exotel — not a generic hostname)

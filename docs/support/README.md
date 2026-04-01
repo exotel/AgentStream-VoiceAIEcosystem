@@ -1,4 +1,4 @@
-# Exotel vSIP + Voice AI — support hub
+# Exotel SIP Trunking + Voice AI — support hub
 
 Use this page to jump to **official provider docs**, **consoles**, and the **per-vendor support articles** in this repo. Shared Exotel trunk curls live in [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).
 
@@ -10,7 +10,7 @@ A **first successful PSTN ↔ SIP test** is often **5–15 minutes only after**:
 
 | Prerequisite | Why it is not instant |
 |--------------|------------------------|
-| Exotel **KYC**, **DID** in **E.164**, **vSIP enabled** | Account and product gates |
+| Exotel **KYC**, **DID** in **E.164**, **SIP trunking enabled** | Account and product gates |
 | **Edge IP:port** from Exotel (not guessed) | Firewall and SIP termination |
 | Voice AI **agent published** + **SIP / telephony** configured on the provider | Product-specific |
 | **Digest / ACL** values **identical** on Exotel and the provider | One typo = 401/403 |
@@ -80,7 +80,7 @@ Treat the steps below as **minimum click/API paths** once those are true.
 1. **Ultravox:** agent exists → `GET /api/sip` for **domain** → allowlist Exotel signalling IPs (`/32`) or use **SIP registration** per docs.  
 2. **Exotel:** trunk + DID + credentials; outbound via **`medium.sip.outgoing`** toward Exotel.  
 3. **Inbound:** destination URI toward Ultravox SIP endpoint → Connect **`sip:<trunk_sid>`**.  
-4. **Alternate:** native **`exotel`** medium + streaming — no vSIP trunk; use [telephony platforms](https://docs.ultravox.ai/telephony/telephony-platforms) + Exotel Voice Streaming docs.
+4. **Alternate:** native **`exotel`** medium + streaming — no SIP trunk; use [telephony platforms](https://docs.ultravox.ai/telephony/telephony-platforms) + Exotel Voice Streaming docs.
 
 ### Vapi (BYO SIP trunk)
 
@@ -105,7 +105,7 @@ Treat the steps below as **minimum click/API paths** once those are true.
 ### Rapida AI (native Exotel vs SIP trunk)
 
 1. **Path A (native):** Rapida **Integration → Tools** → **Exotel** credentials; **Phone** deployment with **App ID** + DID; Exotel Flow → **`https://websocket-01.in.rapida.ai/v1/talk/exotel/call/...`** ([guide](https://doc.rapida.ai/integrations/telephony/exotel)).  
-2. **Path B (SIP):** Exotel vSIP **`destination-uris`** toward **`sip-01.in.rapida.ai:5060`**; **Connect** **`sip:<trunk_sid>`**; Rapida **SIP Trunk** credential toward Exotel **edge** for PSTN outbound if needed ([SIP guide](https://doc.rapida.ai/integrations/telephony/sip)).
+2. **Path B (SIP):** Exotel SIP trunking **`destination-uris`** toward **`sip-01.in.rapida.ai:5060`**; **Connect** **`sip:<trunk_sid>`**; Rapida **SIP Trunk** credential toward Exotel **edge** for PSTN outbound if needed ([SIP guide](https://doc.rapida.ai/integrations/telephony/sip)).
 
 ### NLPearl.AI (Custom VoIP — Option B)
 
@@ -134,5 +134,5 @@ Treat the steps below as **minimum click/API paths** once those are true.
 
 ## Related
 
-- [WebRTC / Exotel app flows (browser SDK, not vSIP)](../integrations/webrtc-application-setup.md)
+- [WebRTC / Exotel app flows (browser SDK, not SIP trunking)](../integrations/webrtc-application-setup.md)
 - [Integrations index](../integrations/README.md)

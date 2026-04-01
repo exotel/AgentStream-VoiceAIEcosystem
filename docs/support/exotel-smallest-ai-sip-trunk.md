@@ -1,6 +1,6 @@
-# Connect Exotel Virtual SIP Trunk to Smallest AI (Atoms)
+# Connect Exotel SIP trunking to Smallest AI (Atoms)
 
-This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Smallest AI](https://smallest.ai/)** **Atoms** using **Import SIP** (bring your own number over SIP). Smallest documents this in the platform **Phone Numbers** flow — you provide a **SIP Termination URL** (where Atoms sends **outbound** SIP toward your carrier) and copy the **SIP Origination URL** that Atoms gives you into your carrier for **inbound** routing.
+This guide connects **Exotel SIP trunking** to **[Smallest AI](https://smallest.ai/)** **Atoms** using **Import SIP** (bring your own number over SIP). Smallest documents this in the platform **Phone Numbers** flow — you provide a **SIP Termination URL** (where Atoms sends **outbound** SIP toward your carrier) and copy the **SIP Origination URL** that Atoms gives you into your carrier for **inbound** routing.
 
 > **Applicability:** **UI-driven** (Atoms “Import SIP” screen) with optional **API-driven** outbound call triggering.
 
@@ -56,7 +56,7 @@ This guide connects **Exotel Virtual SIP Trunking (vSIP)** to **[Smallest AI](ht
 
 ## Part B — Exotel APIs
 
-**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (vSIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
+**Auth:** `API_KEY:API_TOKEN@api.in.exotel.com` · **200 requests/minute (SIP trunk APIs)** · [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md)
 
 ### Outbound SIP (minimal)
 
@@ -82,7 +82,7 @@ curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCO
 
 ### Connect applet (inbound)
 
-**Dial whom:** **`sip:<trunk_sid>`** — [Voice AI / vSIP](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
+**Dial whom:** **`sip:<trunk_sid>`** — [Voice AI / SIP trunking](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk).
 
 ---
 

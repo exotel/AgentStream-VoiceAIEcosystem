@@ -1,25 +1,25 @@
 # Quickstart — Rapida AI + Exotel
 
-Goal: first successful call using **Rapida** with Exotel, choosing either **native Exotel integration** (recommended) or **vSIP SIP trunk**.
+Goal: first successful call using **Rapida** with Exotel, choosing either **native Exotel integration** (recommended) or **SIP trunking**.
 
 ## Prereqs
 
 - Exotel: DID active (E.164)
 - Rapida: account + assistant ready
 
-Shared Exotel vSIP API snippets (only for the SIP trunk path):
+Shared Exotel SIP trunk API snippets (only for the SIP trunk path):
 
 - [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 
 ## Outbound
 
-### Option A (recommended): Native Exotel (no vSIP trunk)
+### Option A (recommended): Native Exotel (no SIP trunk)
 
 1. **Rapida**: Integration → Tools → **Exotel** credential.
 2. **Rapida**: Deploy → Phone → **Exotel** with **App ID** + Exotel **DID**.
 3. **Exotel**: configure Flow/webhook per Rapida’s Exotel guide.
 
-### Option B: vSIP + Rapida SIP trunk (SIP path)
+### Option B: SIP trunking + Rapida SIP trunk (SIP path)
 
 1. **Exotel**
    - Create trunk

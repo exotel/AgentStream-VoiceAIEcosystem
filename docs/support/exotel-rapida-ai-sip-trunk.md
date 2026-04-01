@@ -1,11 +1,11 @@
-# Connect Exotel to Rapida AI
+# Connect Exotel SIP trunking to Rapida AI
 
 This guide aligns **Exotel** with **[Rapida AI](https://www.rapida.ai/)** for voice assistants. Rapida documents **two** relevant patterns:
 
-> **Applicability:** **Hybrid** — **UI-driven** native Exotel integration (webhook/streaming) OR **SIP-driven** vSIP trunk path.
+> **Applicability:** **Hybrid** — **UI-driven** native Exotel integration (webhook/streaming) OR **SIP-driven** SIP trunk path.
 
-1. **Native Exotel integration** — Exotel **app / Flow** calls Rapida’s **webhook + bidirectional media stream** (no Exotel vSIP trunk API required for this path).  
-2. **SIP trunk** — Exotel as **SIP carrier** (vSIP) ↔ Rapida’s **SIP server** at **`sip-01.in.rapida.ai:5060`** — same **trunk / credentials / destination-uris** patterns as other articles in this repo.
+1. **Native Exotel integration** — Exotel **app / Flow** calls Rapida’s **webhook + bidirectional media stream** (no Exotel SIP trunk API required for this path).  
+2. **SIP trunk** — Exotel as **SIP carrier** (SIP trunking) ↔ Rapida’s **SIP server** at **`sip-01.in.rapida.ai:5060`** — same **trunk / credentials / destination-uris** patterns as other articles in this repo.
 
 > **Primary Rapida reference:** [Exotel integration](https://doc.rapida.ai/integrations/telephony/exotel) · [SIP trunk integration](https://doc.rapida.ai/integrations/telephony/sip) · [Phone deployment](https://doc.rapida.ai/voice-deployment-options/phone)
 
@@ -20,7 +20,7 @@ This guide aligns **Exotel** with **[Rapida AI](https://www.rapida.ai/)** for vo
 | Path | Best when | Exotel work | Rapida work |
 |------|-----------|-------------|-------------|
 | **A — Native Exotel** | You want Rapida’s documented **streaming** integration | Configure **App / Flow** webhook to Rapida; assign DID | **Integration → Tools** → Exotel credentials; **Phone** deployment with **App ID** + number |
-| **B — SIP trunk (vSIP)** | You need **SIP** toward Rapida from Exotel (or digest toward Exotel for outbound) | **Create trunk → map DID → credentials**; **`destination-uris`** toward Rapida SIP host; **Connect** **`sip:<trunk_sid>`** | **SIP Trunk** credential + **Phone** deployment with **SIP** as provider |
+| **B — SIP trunk (SIP trunking)** | You need **SIP** toward Rapida from Exotel (or digest toward Exotel for outbound) | **Create trunk → map DID → credentials**; **`destination-uris`** toward Rapida SIP host; **Connect** **`sip:<trunk_sid>`** | **SIP Trunk** credential + **Phone** deployment with **SIP** as provider |
 
 If you use **Path A**, you may not need **`POST …/trunks`** at all — follow Rapida’s Exotel guide first.
 
@@ -57,7 +57,7 @@ Use Rapida **SDK** or **REST** (`POST https://api.rapida.ai/v1/talk/call`) — e
 
 ---
 
-## Path B — Exotel vSIP + Rapida SIP trunk
+## Path B — Exotel SIP trunking + Rapida SIP trunk
 
 From [Rapida — SIP trunk](https://doc.rapida.ai/integrations/telephony/sip):
 
@@ -84,7 +84,7 @@ curl -s -X POST "https://${API_KEY}:${API_TOKEN}@${SUBDOMAIN}/v2/accounts/${ACCO
   }'
 ```
 
-3. **Flow → Connect:** **Dial whom** = **`sip:<trunk_sid>`** ([Voice AI / vSIP](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk)).
+3. **Flow → Connect:** **Dial whom** = **`sip:<trunk_sid>`** ([Voice AI / SIP trunking](https://support.exotel.com/support/solutions/articles/3000133452-flow-and-api-configuration-guide-for-voice-ai-contact-centre-platforms-via-exotel-virtual-sip-trunk)).
 
 ### Rapida — SIP trunk credential
 

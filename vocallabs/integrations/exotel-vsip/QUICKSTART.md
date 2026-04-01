@@ -1,13 +1,13 @@
 # Quickstart — Vocallabs (Superflow B2B) + Exotel
 
-Goal: first successful call using **Vocallabs API-first flow** aligned with an **Exotel DID** (and Exotel vSIP only if your design uses a classic SIP trunk leg).
+Goal: first successful call using **Vocallabs API-first flow** aligned with an **Exotel DID** (and Exotel SIP trunking only if your design uses a classic SIP trunk leg).
 
 ## Prereqs
 
 - Vocallabs: API credentials (`clientId` / `clientSecret`) from https://docs.vocallabs.ai/vocallabs
-- Exotel: DID available (E.164). If you are using vSIP, vSIP enabled + API creds.
+- Exotel: DID available (E.164). If you are using SIP trunking, enable SIP trunking and generate API credentials.
 
-Shared Exotel vSIP API snippets (only if you need a SIP trunk leg):
+Shared Exotel SIP trunk API snippets (only if you need a SIP trunk leg):
 
 - [`docs/support/_exotel-trunk-api-snippets.md`](../../../docs/support/_exotel-trunk-api-snippets.md)
 

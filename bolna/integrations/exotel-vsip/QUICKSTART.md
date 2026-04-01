@@ -1,10 +1,10 @@
-# Quickstart — Bolna (BYOT SIP) + Exotel vSIP
+# Quickstart — Bolna (BYOT SIP) + Exotel SIP trunking
 
 Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **Bolna BYOT SIP** for the Voice AI leg.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - Bolna: SIP trunking enabled (BYOT is Beta per Bolna docs)
 
 Shared Exotel API snippets:

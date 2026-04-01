@@ -1,10 +1,10 @@
-# Quickstart — LiveKit Cloud Telephony + Exotel vSIP
+# Quickstart — LiveKit Cloud Telephony + Exotel SIP trunking
 
 Goal: first successful **outbound** and **inbound** call using **Exotel as the India PSTN carrier** and **LiveKit rooms** as the SIP destination for agents.
 
 ## Prereqs
 
-- Exotel: vSIP enabled, DID active (E.164), Exotel edge **IP:port** known
+- Exotel: SIP trunking enabled, DID active (E.164), Exotel edge **IP:port** known
 - LiveKit: Cloud project with **Telephony** enabled; you can access **SIP URI** and create SIP trunks + dispatch rules
 
 Shared Exotel API snippets live in:

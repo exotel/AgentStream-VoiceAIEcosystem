@@ -1,4 +1,4 @@
-# Exotel vSIP trunk API — shared reference
+# Exotel SIP trunk API — shared reference
 
 Use these snippets from the support articles for **ElevenLabs**, **LiveKit**, **Retell**, **Bolna**, **Pipecat (via Daily SIP)**, **Ultravox**, **Vapi**, **Smallest AI (Atoms)**, **Vocallabs**, **Rapida AI**, and **NLPearl.AI** integrations. Replace placeholders; do not commit real secrets.
 
@@ -12,7 +12,11 @@ Use these snippets from the support articles for **ElevenLabs**, **LiveKit**, **
 
 **Authentication:** HTTP Basic — `https://API_KEY:API_TOKEN@SUBDOMAIN/...`
 
-**Rate limit:** 200 requests per minute on these trunk APIs ([Exotel SIP API reference](https://docs.exotel.com/dynamic-sip-trunking/detailed-sip-trunking-api-reference)).
+**Trunk API rate limit:** 200 requests per minute on these trunk configuration APIs ([Exotel SIP API reference](https://docs.exotel.com/dynamic-sip-trunking/detailed-sip-trunking-api-reference)).
+
+**Outbound call rate (default):** Exotel typically allows **200 outbound call attempts per minute** by default (account-level). If you need a higher outbound initiation limit, contact your **CSM**.
+
+**Where to get API credentials:** [API Settings (India)](https://my.in.exotel.com/apisettings/site#api-credentials) (or your cluster dashboard).
 
 **Headers:** `Content-Type: application/json` on POST/PUT.
 

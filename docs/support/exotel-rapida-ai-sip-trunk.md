@@ -2,6 +2,8 @@
 
 This guide aligns **Exotel** with **[Rapida AI](https://www.rapida.ai/)** for voice assistants. Rapida documents **two** relevant patterns:
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **Hybrid** — **UI-driven** native Exotel integration (webhook/streaming) OR **SIP-driven** SIP trunk path.
 
 1. **Native Exotel integration** — Exotel **app / Flow** calls Rapida’s **webhook + bidirectional media stream** (no Exotel SIP trunk API required for this path).  

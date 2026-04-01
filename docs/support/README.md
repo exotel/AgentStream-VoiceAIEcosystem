@@ -2,6 +2,8 @@
 
 Use this page to jump to **official provider docs**, **consoles**, and the **per-vendor support articles** in this repo. Shared Exotel trunk curls live in [`_exotel-trunk-api-snippets.md`](./_exotel-trunk-api-snippets.md).
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 ---
 
 ## Honest “5 minutes”

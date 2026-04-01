@@ -2,6 +2,8 @@
 
 This guide connects **Exotel SIP trunking** to **[Vapi](https://vapi.ai/)** using Vapi’s **Bring Your Own (BYO) SIP trunk** credential (`byo-sip-trunk`) and **BYO phone number** (`byo-phone-number`), with Exotel as the Indian PSTN carrier.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **UI-driven + API-driven** (Vapi dashboard objects, also creatable via API).
 
 > **Exotel edge:** Use **IPv4 `IP:port`** from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). **Vapi’s SBC expects a numeric IPv4 in the gateway field** — resolve any hostname to IPv4 before saving the credential ([hostname vs IP](https://docs.vapi.ai/advanced/sip/troubleshoot-sip-trunk-credential-errors)).

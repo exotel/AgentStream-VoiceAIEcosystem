@@ -2,6 +2,8 @@
 
 This guide aligns **Exotel SIP trunking** with **[Pipecat](https://pipecat.ai/)** using the same **Exotel** patterns as the other Voice AI integrations in this repository: **outbound** = create trunk → map DID → credentials; **optional ACL** = static IPs only (`mask: 32`), no CIDR ranges on the trunk; **inbound** = destination URI on the trunk when routing toward a **fixed** SIP partner; **Connect** = **`sip:<trunk_sid>`** where Exotel’s product uses that form.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **API/engineering-driven** (Pipecat orchestration + Daily rooms/SIP). Inbound is typically a **dynamic** Daily `sip_uri` bridge, not a single static destination URI.
 
 **Pipecat is not a SIP trunk provider.** Pipecat agents typically use **[Daily](https://www.daily.co/)** for **WebRTC** and **[SIP dial-in / dial-out](https://docs.daily.co/guides/products/dial-in-dial-out/sip)**. Pipecat publishes a **[PSTN + Daily SIP walkthrough](https://docs.pipecat.ai/guides/telephony/twilio-daily-sip)** (upstream doc path). Treat **Exotel** as the **PSTN carrier**: your **webhook server** still creates a **Daily room with SIP** and bridges the live call to Daily’s **`sip_uri`** after **`on_dialin_ready`**.

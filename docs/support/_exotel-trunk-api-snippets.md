@@ -2,6 +2,8 @@
 
 Use these snippets from the support articles for **ElevenLabs**, **LiveKit**, **Retell**, **Bolna**, **Pipecat (via Daily SIP)**, **Ultravox**, **Vapi**, **Smallest AI (Atoms)**, **Vocallabs**, **Rapida AI**, and **NLPearl.AI** integrations. Replace placeholders; do not commit real secrets.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 | Placeholder | Description |
 |-------------|-------------|
 | `API_KEY` | Exotel API Key ([API Settings](https://my.in.exotel.com/apisettings/site#api-credentials)) |

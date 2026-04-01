@@ -2,6 +2,8 @@
 
 This guide explains how to connect **Exotel SIP trunking** to **ElevenLabs Conversational AI** so you can place and receive PSTN calls in India through Exotel while your agent runs on ElevenLabs.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **UI-driven** (ElevenLabs console for agents + phone numbers) with optional **API-driven** outbound triggering.
 
 > **Exotel edge:** Exotel provides **SIP edge IP address(es) and port(s)** for signaling (for example **TLS `443`** or **TCP `5070`** per [Exotel network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Configure **`<EXOTEL_EDGE_IP>:<PORT>`** in ElevenLabs — use the values Exotel assigns for your account.

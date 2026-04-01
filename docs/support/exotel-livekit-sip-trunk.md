@@ -2,6 +2,8 @@
 
 This guide connects **Exotel SIP trunking** to **LiveKit Cloud** telephony so PSTN calls can reach **LiveKit rooms** and outbound calls can use Exotel as the Indian PSTN leg.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **UI-driven + developer-driven** (LiveKit Cloud console for trunks/dispatch; your app/agent joins rooms). Not a single “import trunk” wizard like some providers.
 
 > **Exotel edge:** Signaling toward Exotel uses **edge IP:port** from Exotel ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Configure **`IP:port`** as Exotel assigns — not an assumed carrier hostname.

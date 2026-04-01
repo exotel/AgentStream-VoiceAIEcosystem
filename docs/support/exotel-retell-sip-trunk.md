@@ -2,6 +2,8 @@
 
 This guide connects **Exotel SIP trunking** to **Retell AI** using elastic SIP per [Retell custom telephony](https://docs.retellai.com/deploy/custom-telephony), with Exotel as the Indian PSTN provider.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **UI-driven** (Retell dashboard custom telephony) with optional **API-driven** call control.
 
 > **Exotel edge:** Use **IP:port** from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)).

@@ -2,6 +2,8 @@
 
 This guide connects **Exotel SIP trunking** to **[Smallest AI](https://smallest.ai/)** **Atoms** using **Import SIP** (bring your own number over SIP). Smallest documents this in the platform **Phone Numbers** flow — you provide a **SIP Termination URL** (where Atoms sends **outbound** SIP toward your carrier) and copy the **SIP Origination URL** that Atoms gives you into your carrier for **inbound** routing.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **UI-driven** (Atoms “Import SIP” screen) with optional **API-driven** outbound call triggering.
 
 > **Exotel edge:** Use **IP:port** (and transport) from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Enter the value Smallest expects as the **termination** target (often `host:port` or `sip:host:port` — follow the **Import SIP** form and [phone numbers](https://atoms-docs.smallest.ai/platform/deployment/phone-numbers.md) doc).

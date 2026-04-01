@@ -2,6 +2,8 @@
 
 This guide connects **Exotel SIP trunking** to **[NLPearl.AI](https://platform.nlpearl.ai/)** using NLPearl’s **Custom VoIP** feature, where **Exotel is the SIP carrier** behind NLPearl (NLPearl’s portal drives the AI agent; Exotel provides the PSTN DID and SIP trunk).
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **UI-driven + API-driven** (Custom VoIP configuration in NLPearl portal; optional outbound via API).
 
 > **Exotel edge:** Use **IP:port** (and transport) from Exotel for SIP toward their gateway ([network and firewall](https://docs.exotel.com/dynamic-sip-trunking/network-and-firewall-configuration)). Don’t guess these values.

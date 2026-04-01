@@ -2,6 +2,8 @@
 
 This guide aligns **Exotel SIP trunking** with **[Bolna AI](https://www.bolna.ai/)** using the same patterns as the other Voice AI integrations in this repository: **outbound Exotel** = create trunk → map DID → credentials; **inbound** = destination URI on the trunk; **Connect** = **`sip:<trunk_sid>`**; **ACL** = static IPs only (`mask: 32`), no CIDR ranges on the trunk.
 
+**GitHub repo (reference):** https://github.com/exotel/AgentStream-VoiceAIEcosystem
+
 > **Applicability:** **Hybrid** — BYOT is **API/config-driven** (SIP trunk objects) and may also have portal steps depending on account access (SIP is Beta).
 
 **Outbound SIP is supported.** With BYOT, Bolna **places outbound PSTN calls over SIP** through your trunk: it resolves `from_number` to your trunk, then signals to your **gateway** (Exotel **edge IP:port**) using **userpass** (or **ip-based**) auth. That is the flow described in [Make Outbound Calls via Your SIP Trunk](https://www.bolna.ai/docs/sip-trunking/byot-outbound-calls). **Part B** below is exactly what Exotel needs on the **carrier** side for that outbound SIP leg.

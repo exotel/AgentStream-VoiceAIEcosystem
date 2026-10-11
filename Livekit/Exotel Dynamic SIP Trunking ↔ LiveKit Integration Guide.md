@@ -207,7 +207,7 @@ ST_xxxxxxxxxxxxxxxxxxxx
 
 This is your **SIP Trunk ID**. You will use it when initiating calls. Note it down.
 
-If no trunk appears, you need to create an outbound SIP trunk in LiveKit pointing to your Exotel SIP edge. Refer to [LiveKit SIP documentation](https://docs.livekit.io/sip/) for trunk creation steps.
+If no trunk appears, you need to create an outbound SIP trunk in LiveKit pointing to your Exotel SIP edge. Refer to [LiveKit SIP documentation](https://docs.livekit.io/sip/) for trunk creation steps. For Indian calls, set `destination_country` to `in` on the trunk so calls originate from LiveKit's India region ([region pinning](https://docs.livekit.io/telephony/features/region-pinning/)), and list your Exotel number in E.164 (`+91...`).
 
 ---
 
@@ -374,6 +374,8 @@ Both participants publishing audio (`Publishers = 2`) confirms the two-way voice
 | SIP Feature Enabled | ✅ Yes | Enable in LiveKit project settings |
 | Agent Running | ✅ Yes | Verify with `lk agent list` |
 | Outbound SIP Trunk Created | ✅ Yes | Pointing to Exotel SIP edge |
+| Trunk `destination_country` = `in` | ✅ Yes | Originates calls from LiveKit's India region ([region pinning](https://docs.livekit.io/telephony/features/region-pinning/)) |
+| Numbers in E.164 | ✅ Yes | e.g. `+912247790801`, not `02247790801` |
 | Dispatch Name Known | ✅ Yes | Use Dispatch Name, NOT Agent ID |
 | Dispatch Created Before SIP Call | ✅ Yes | Agent must join room first |
 | Same Room Name Used Everywhere | ✅ Yes | Dispatch, SIP call JSON must match exactly |

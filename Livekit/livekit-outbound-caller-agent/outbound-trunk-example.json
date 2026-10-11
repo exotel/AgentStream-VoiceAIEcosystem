@@ -3,9 +3,10 @@
         "name": "exotel",
         "address": "92.4.67.147:5070",
         "numbers": [
-            "02247790801"
+            "+912247790801"
         ],
         "auth_username": "exotel",
-        "auth_password": "exotel"
+        "auth_password": "exotel",
+        "destination_country": "in"
     }
 }

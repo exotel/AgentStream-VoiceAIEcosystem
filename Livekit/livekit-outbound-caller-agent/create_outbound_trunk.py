@@ -47,6 +47,9 @@ async def main():
         transport=SIPTransport.SIP_TRANSPORT_AUTO,
         auth_username=t["auth_username"],
         auth_password=t["auth_password"],
+        # Originate outbound calls from LiveKit's India region so media stays in India.
+        # https://docs.livekit.io/telephony/features/region-pinning/
+        destination_country=t.get("destination_country", "in"),
     )
 
     async with api.LiveKitAPI() as lkapi:
